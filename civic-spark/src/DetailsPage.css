@@ -1,0 +1,155 @@
+.details-page {
+	font-family: "Inter", sans-serif;
+	background-color: linear-gradient(180deg, #f9f9f9, #e9ecef);
+	padding: 40px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 40px;
+    height: 100vh;
+}
+
+.left-panel,
+.right-panel {
+	background: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+.left-panel {
+	flex: 2;
+	max-width: 600px;
+	text-align: left;
+}
+
+.left-panel h1 {
+	font-size: 2rem;
+	color: #264653;
+	margin-bottom: 10px;
+}
+
+.organization-info {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 10px;
+}
+
+.organization-logo {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.organization-name {
+	font-size: 1rem;
+	color: #264653;
+	font-weight: bold;
+}
+
+.left-panel p {
+	font-size: 1rem;
+	color: #555;
+	line-height: 1.6;
+}
+
+.right-panel {
+	flex: 1;
+	max-width: 300px;
+	text-align: left;
+}
+
+.right-panel h2 {
+	font-size: 1.5rem;
+	color: #2a9d8f;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.detail-item {
+	font-size: 1rem;
+	color: #555;
+	margin-bottom: 10px;
+}
+
+.detail-item strong {
+	color: #264653;
+	font-weight: bold;
+}
+
+.signup-button,
+.save-button,
+.unsave-button {
+	display: inline-block;
+	width: 100%;
+	text-decoration: none;
+	padding: 12px 20px;
+	border-radius: 25px;
+	font-size: 1rem;
+	text-align: center;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+.signup-button:hover,
+.save-button:hover,
+.unsave-button:hover {
+	transform: translateY(-2px);
+}
+
+.signup-button {
+	background-color: #2a9d8f;
+	color: white;
+	font-weight: bold;
+}
+
+.signup-button:hover {
+	background-color: #264653;
+}
+
+.save-button {
+	background-color: #e76f51;
+	color: white;
+    border-color: #e76f51;
+    border-style: solid;
+}
+
+.save-button:hover {
+	background-color: #d35442;
+    border-color: #d35442;
+}
+
+.unsave-button {
+	background-color: #e83443;
+	color: white;
+    border-color: #e83443;
+    border-style: solid;
+    font-weight: bold;
+}
+
+.unsave-button:hover {
+	background-color: #c32d36;
+    border-color: #c32d36;
+}
+
+.opp-image {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+	.details-page {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.left-panel,
+	.right-panel {
+		width: 90%;
+	}
+}

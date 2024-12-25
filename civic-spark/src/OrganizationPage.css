@@ -1,0 +1,99 @@
+.organization-page {
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+	background-color: #f9f9f9;
+	font-family: "Inter", sans-serif;
+}
+
+.organization-content {
+	display: flex;
+	gap: 20px;
+}
+
+.organization-left-panel,
+.organization-right-panel {
+	flex: 1;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 780px !important;
+}
+
+.organization-page-logo {
+    width: 85px;
+    height: 85px;
+    margin-top: 8px;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.organization-description {
+	color: #555;
+	line-height: 1.5;
+	margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.organization-right-panel h2 {
+	font-size: 1.5rem;
+	color: #2a9d8f;
+	margin-bottom: 35px;
+    margin-top: 17px;
+	text-align: center;
+}
+
+.opportunity-card {
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; /* Centers content vertically */
+	text-align: center; /* Centers text horizontally */
+	transition: all 0.3s ease;
+	overflow: hidden;
+	height: 350px !important;
+	width: 350px !important;
+}
+
+.opportunity-card:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.opportunity-card h3 {
+	color: #264653;
+}
+
+.organization-left-panel h1 {
+    font-size: 2rem;
+	color: #2a9d8f;
+}
+
+.organization-fav-button {
+    font-size: 2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+
+.signup-button {
+	display: inline-block;
+	background-color: #2a9d8f;
+	color: white;
+	padding: 10px 15px;
+	border-radius: 25px;
+	text-decoration: none;
+	font-size: 1rem;
+	margin-top: 10px;
+	transition: all 0.3s ease;
+}
+
+.signup-button:hover {
+	background-color: #264653;
+}

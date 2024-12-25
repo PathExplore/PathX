@@ -1,0 +1,30 @@
+Leaderboard or Community Stats
+Purpose: Encourage competition and engagement.
+Display:
+User’s rank in hours volunteered.
+Top contributors (names, profile pictures, and hours volunteered).
+Data:
+Pull stats from the database and display rankings.
+Styling:
+Use a card or a table to display leaderboards.
+
+Personalized Suggestions
+Purpose: Provide tailored recommendations.
+Display:
+Suggested events based on user preferences or past participation.
+New opportunities from favorited organizations.
+Actions:
+Add a "Sign Up" button for each recommendation.
+
+
+Badges and Achievements
+Purpose: Gamify the experience.
+Display:
+Badges for milestones (e.g., "First Event Completed", "100 Hours Volunteered").
+Levels or tiers based on user engagement.
+Styling:
+Show badges in a dedicated section or overlay them on the user profile card.
+
+Access website to get volunteering oppurtunities
+
+Fix test in HomePage and AboutPage
