@@ -18,7 +18,7 @@
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 780px !important;
+    width: 1000px !important;
 }
 
 .organization-page-logo {
@@ -40,9 +40,14 @@
 .organization-right-panel h2 {
 	font-size: 1.5rem;
 	color: #2a9d8f;
-	margin-bottom: 35px;
-    margin-top: 17px;
+	margin-bottom: 30px;
+    margin-top: 15px;
 	text-align: center;
+}
+
+.org-opp-grid {
+	height: 350px !important;
+	width: 100%;
 }
 
 .opportunity-card {

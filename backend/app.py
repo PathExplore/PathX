@@ -377,7 +377,7 @@ def get_organization_details(org_id):
         return jsonify({"error": "Organization not found"}), 404
 
     # Fetch opportunities, sorted by date (closest first)
-    opportunities = VolunteeringOpportunity.query.filter_by(org_id=org_id).order_by(VolunteeringOpportunity.date.asc()).limit(4).all()
+    opportunities = VolunteeringOpportunity.query.filter_by(org_id=org_id).order_by(VolunteeringOpportunity.date.asc()).all()
 
     return jsonify({
         "organization": {
@@ -390,9 +390,10 @@ def get_organization_details(org_id):
             {
                 "id": opp.opp_id,
                 "title": opp.title,
-                "description": opp.description,
                 "category": opp.category,
-                "signup_url": opp.signup_url,
+                "date": opp.date,
+                "location": opp.location,
+                "length": opp.length,
             }
             for opp in opportunities
         ],
