@@ -69,7 +69,7 @@ body {
 
 .cta-button:hover {
 	background: #d35442;
-	transform: translateY(-2px);
+	transform: translateY(-8px);
 }
 
 .introduction {

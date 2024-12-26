@@ -259,7 +259,7 @@
 	box-sizing: border-box;
 }
 
-.graph-card canvas {
+.inner-graph {
 	width: 70% !important;
 	height: 70% !important;
 }

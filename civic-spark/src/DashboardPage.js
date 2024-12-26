@@ -99,7 +99,7 @@ const DashboardPage = () => {
 		};
 
 		fetchUserData();
-	}, []);
+	}, [categoryRange]);
 
 	const handleEditProfile = async (updatedProfile) => {
 		try {
@@ -213,28 +213,40 @@ const DashboardPage = () => {
 				now.getFullYear() * 12 +
 				now.getMonth() -
 				(completedDate.getFullYear() * 12 + completedDate.getMonth());
+			const isInRange =
+				(categoryRange === "month" &&
+					completedDate.getMonth() === now.getMonth() &&
+					completedDate.getFullYear() === now.getFullYear()) ||
+				(categoryRange === "year" &&
+					completedDate.getFullYear() === now.getFullYear());
 
 			if (monthDifference < 24) {
 				monthHours[monthDifference] += parseFloat(opp.length) || 0;
 			}
 
-			if (
-				categoryRange === "month" &&
-				completedDate.getMonth() === now.getMonth() &&
-				completedDate.getFullYear() === now.getFullYear()
-			) {
-				categoryCounts[opp.category] =
-					(parseFloat(categoryCounts[opp.category]) || 0) +
-					parseFloat(opp.length);
-			}
+			// Split categories and add hours for each category
+			if (isInRange) {
+				const categories = opp.category.split(", ").map((cat) => cat.trim());
+				categories.forEach((category) => {
+					if (
+						categoryRange === "month" &&
+						completedDate.getMonth() === now.getMonth() &&
+						completedDate.getFullYear() === now.getFullYear()
+					) {
+						categoryCounts[category] =
+							(parseFloat(categoryCounts[category]) || 0) +
+							parseFloat(opp.length);
+					}
 
-			if (
-				categoryRange === "year" &&
-				completedDate.getFullYear() === now.getFullYear()
-			) {
-				categoryCounts[opp.category] =
-					(parseFloat(categoryCounts[opp.category]) || 0) +
-					parseFloat(opp.length);
+					if (
+						categoryRange === "year" &&
+						completedDate.getFullYear() === now.getFullYear()
+					) {
+						categoryCounts[category] =
+							(parseFloat(categoryCounts[category]) || 0) +
+							parseFloat(opp.length);
+					}
+				});
 			}
 		});
 
@@ -252,7 +264,7 @@ const DashboardPage = () => {
 		}),
 		datasets: [
 			{
-				label: "Hours Volunteered",
+				label: " Hours Volunteered",
 				data: hoursData.slice(-graphRange),
 				backgroundColor: "#2a9d8f",
 			},
@@ -263,7 +275,7 @@ const DashboardPage = () => {
 		labels: Object.keys(categoryData),
 		datasets: [
 			{
-				label: "Categories",
+				label: " Categories",
 				data: Object.values(categoryData),
 				backgroundColor: ["#2a9d8f", "#e76f51", "#f4a261", "#264653"],
 			},
@@ -286,11 +298,7 @@ const DashboardPage = () => {
 			cellRenderer: (params) => {
 				const url = "/opportunity/" + params.data.id || "#";
 				return (
-					<Link
-						to={url}
-						rel="noopener noreferrer"
-						className="saved-sign-up"
-					>
+					<Link to={url} rel="noopener noreferrer" className="saved-sign-up">
 						{params.value}
 					</Link>
 				);
@@ -311,11 +319,7 @@ const DashboardPage = () => {
 			cellRenderer: (params) => {
 				const url = "/organization/" + params.data.id || "#";
 				return (
-					<Link
-						to={url}
-						rel="noopener noreferrer"
-						className="saved-sign-up"
-					>
+					<Link to={url} rel="noopener noreferrer" className="saved-sign-up">
 						{params.value}
 					</Link>
 				);
@@ -460,10 +464,12 @@ const DashboardPage = () => {
 				{/* Volunteer Hours Graph */}
 				<div className="profile-card graph-card">
 					<h4>Volunteer Hours</h4>
-					<Bar
-						data={barData}
-						options={{ maintainAspectRatio: false, responsive: true }}
-					/>
+					<div className="inner-graph">
+						<Bar
+							data={barData}
+							options={{ maintainAspectRatio: false, responsive: true }}
+						/>
+					</div>
 					<select
 						value={graphRange}
 						onChange={(e) => setGraphRange(Number(e.target.value))}
@@ -478,10 +484,12 @@ const DashboardPage = () => {
 				{/* Volunteer Categories Graph */}
 				<div className="profile-card graph-card">
 					<h4>Volunteer Categories</h4>
-					<Pie
-						data={pieData}
-						options={{ maintainAspectRatio: false, responsive: true }}
-					/>
+					<div className="inner-graph">
+						<Pie
+							data={pieData}
+							options={{ maintainAspectRatio: false, responsive: true }}
+						/>
+					</div>
 					<select
 						value={categoryRange}
 						onChange={(e) => setCategoryRange(e.target.value)}
