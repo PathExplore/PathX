@@ -4,8 +4,8 @@ from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:UmaKiran@localhost:5432/CivicSpark'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rukshik:UmaKiran12@civicspark.postgres.database.azure.com:5432/CivicSpark'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:UmaKiran@localhost:5432/CivicSpark'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rukshik:UmaKiran12@civicspark.postgres.database.azure.com:5432/CivicSpark'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
