@@ -71,6 +71,7 @@ class VolunteeringOpportunity(Base):
     organization = relationship("Organization", backref="volunteering_opportunities")
 
 
+@app.function_name(name="fetch-volunteerconnector-opps")
 @app.schedule(
     schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True, use_monitor=False
 )
