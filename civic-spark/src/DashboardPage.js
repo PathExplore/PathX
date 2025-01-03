@@ -275,7 +275,7 @@ const DashboardPage = () => {
 		labels: Object.keys(categoryData),
 		datasets: [
 			{
-				label: " Categories",
+				label: " Hours",
 				data: Object.values(categoryData),
 				backgroundColor: ["#2a9d8f", "#e76f51", "#f4a261", "#264653"],
 			},
@@ -287,7 +287,7 @@ const DashboardPage = () => {
 		{ headerName: "Completed At", field: "completed_at", flex: 1 },
 		{ headerName: "Category", field: "category", flex: 1 },
 		{ headerName: "Organization", field: "organization", flex: 1 },
-		{ headerName: "Length (Hours)", field: "length", flex: 1 },
+		{ headerName: "Duration", field: "length", flex: 1 },
 	];
 
 	const savedOpportunitiesColumns = [
@@ -304,11 +304,11 @@ const DashboardPage = () => {
 				);
 			},
 		},
-		{ headerName: "Date", field: "date", flex: 1 },
-		{ headerName: "Time", field: "time", flex: 1 },
+		{ headerName: "Date(s)", field: "date", flex: 1 },
+		{ headerName: "Time(s)", field: "time", flex: 1 },
 		{ headerName: "Location", field: "location", flex: 1 },
 		{ headerName: "Organization", field: "organization", flex: 1 },
-		{ headerName: "Length (Hours)", field: "length", flex: 1 },
+		{ headerName: "Duration", field: "length", flex: 1 },
 	];
 
 	const favoritesColumns = [
@@ -330,11 +330,11 @@ const DashboardPage = () => {
 
 	const upcomingEventsColumns = [
 		{ headerName: "Title", field: "title", flex: 1 },
-		{ headerName: "Date", field: "date", flex: 1 },
-		{ headerName: "Time", field: "time", flex: 1 },
+		{ headerName: "Date(s)", field: "date", flex: 1 },
+		{ headerName: "Time(s)", field: "time", flex: 1 },
 		{ headerName: "Location", field: "location", flex: 1 },
 		{ headerName: "Organization", field: "organization", flex: 1 },
-		{ headerName: "Length (Hours)", field: "length", flex: 1 },
+		{ headerName: "Duration", field: "length", flex: 1 },
 	];
 
 	return (
@@ -485,10 +485,14 @@ const DashboardPage = () => {
 				<div className="profile-card graph-card">
 					<h4>Volunteer Categories</h4>
 					<div className="inner-graph">
-						<Pie
-							data={pieData}
-							options={{ maintainAspectRatio: false, responsive: true }}
-						/>
+						{Object.keys(categoryData).length > 0 ? (
+							<Pie
+								data={pieData}
+								options={{ maintainAspectRatio: false, responsive: true }}
+							/>
+						) : (
+							<p>No data available for the selected range.</p>
+						)}
 					</div>
 					<select
 						value={categoryRange}

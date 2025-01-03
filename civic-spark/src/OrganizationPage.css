@@ -18,13 +18,13 @@
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 1000px !important;
+	width: 1000px !important;
 }
 
 .organization-page-logo {
-    width: 85px;
-    height: 85px;
-    margin-top: 8px;
+	width: 85px;
+	height: 85px;
+	margin-top: 8px;
 	border-radius: 50%;
 	object-fit: cover;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
@@ -34,14 +34,14 @@
 	color: #555;
 	line-height: 1.5;
 	margin-bottom: 10px;
-    margin-top: 25px;
+	margin-top: 25px;
 }
 
 .organization-right-panel h2 {
 	font-size: 1.5rem;
 	color: #2a9d8f;
 	margin-bottom: 30px;
-    margin-top: 15px;
+	margin-top: 15px;
 	text-align: center;
 }
 
@@ -76,15 +76,15 @@
 }
 
 .organization-left-panel h1 {
-    font-size: 2rem;
+	font-size: 2rem;
 	color: #2a9d8f;
 }
 
 .organization-fav-button {
-    font-size: 2rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 5px;
+	font-size: 2rem;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 5px;
 }
 
 .signup-button {

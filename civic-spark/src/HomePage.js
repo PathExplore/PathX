@@ -35,7 +35,9 @@ const HomePage = () => {
 				{
 					email: userData.email,
 					name: userData.displayName || "Anonymous",
-					profile_picture_url: userData.photoURL || "https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=",
+					profile_picture_url:
+						userData.photoURL ||
+						"https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=",
 				}
 			);
 
@@ -67,7 +69,10 @@ const HomePage = () => {
 			setModalOpen(false);
 		} catch (error) {
 			console.error("Error signing in with Google:", error);
-			addNotification("Authorization failed. Please try again later. " + error, "error");
+			addNotification(
+				"Authorization failed. Please try again later. " + error,
+				"error"
+			);
 		}
 	};
 
@@ -83,7 +88,10 @@ const HomePage = () => {
 			setModalOpen(false);
 		} catch (error) {
 			console.error("Error signing in with Microsoft:", error);
-			addNotification("Authorization failed. Please try again later. " + error, "error");
+			addNotification(
+				"Authorization failed. Please try again later. " + error,
+				"error"
+			);
 		}
 	};
 

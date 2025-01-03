@@ -153,83 +153,83 @@ const DetailsPage = () => {
 			<div className="left-panel">
 				<h1>{opportunity.title}</h1>
 				<div className="organization-info">
-					<div className="organization-info">
-						<Link
-							to={`/organization/${opportunity.org_id}`}
-							className="org-link"
-							rel="noopener noreferrer"
-						>
-							<div className="org-name-favorite">
-								<img
-									src={opportunity.organization.logo_url}
-									alt="Organization"
-									className="organization-logo"
-								/>
-								<span>{opportunity.organization.name}</span>
-								{favoritedOrgs[opportunity.org_id] ? (
-									<button
-										onClick={(event) => {
-											event.preventDefault();
-											handleUnfavorite(opportunity.org_id, event);
-										}}
-										className="unfavorite-button"
-									>
-										<i className="fa-solid fa-heart"></i>
-									</button>
-								) : (
-									<button
-										onClick={(event) => {
-											event.preventDefault();
-											handleFavorite(opportunity.org_id, event);
-										}}
-										className="favorite-button"
-									>
-										<i className="fa-regular fa-heart"></i>
-									</button>
-								)}
-							</div>
-						</Link>
-					</div>
+					<Link
+						to={`/organization/${opportunity.org_id}`}
+						className="org-link"
+						rel="noopener noreferrer"
+					>
+						<div className="org-name-favorite">
+							<img
+								src={opportunity.organization.logo_url}
+								alt="Organization"
+								className="organization-logo"
+							/>
+							<span>{opportunity.organization.name}</span>
+							{favoritedOrgs[opportunity.org_id] ? (
+								<button
+									onClick={(event) => {
+										event.preventDefault();
+										handleUnfavorite(opportunity.org_id, event);
+									}}
+									className="unfavorite-button"
+								>
+									<i className="fa-solid fa-heart"></i>
+								</button>
+							) : (
+								<button
+									onClick={(event) => {
+										event.preventDefault();
+										handleFavorite(opportunity.org_id, event);
+									}}
+									className="favorite-button"
+								>
+									<i className="fa-regular fa-heart"></i>
+								</button>
+							)}
+						</div>
+					</Link>
 				</div>
 				<img
 					src={opportunity.image_link}
 					alt="Opportunity"
 					className="opp-image"
 				></img>
-				<p>{opportunity.long_description || opportunity.description}</p>
+				<p>{opportunity.description}</p>
 			</div>
 
 			{/* Right Panel */}
 			<div className="right-panel">
 				<h2>Details</h2>
-				<p className="detail-item">
-					<strong>Category:</strong> {opportunity.category}
-				</p>
-				<p className="detail-item">
-					<strong>Skills Required:</strong>{" "}
-					{opportunity.skills_required || "None"}
-				</p>
-				<p className="detail-item">
-					<strong>Date:</strong>{" "}
-					{opportunity.date
-						? new Date(opportunity.date).toLocaleDateString()
-						: "N/A"}
-				</p>
-				<p className="detail-item">
-					<strong>Time:</strong>{" "}
-					{opportunity.date
-						? new Date(opportunity.date).toLocaleTimeString()
-						: "N/A"}
-				</p>
-				<p className="detail-item">
-					<strong>Length:</strong>{" "}
-					{opportunity.length === "1"
-						? "1 hour"
-						: `${opportunity.length} hours`}
-				</p>
-				<p className="detail-item">
-					<strong>Location:</strong> {opportunity.location || "N/A"}
-				</p>
+				{opportunity.category && (
+					<p className="detail-item">
+						<strong>Category:</strong> {opportunity.category}
+					</p>
+				)}
+				{opportunity.skills_required && (
+					<p className="detail-item">
+						<strong>Skills Required:</strong> {opportunity.skills_required}
+					</p>
+				)}
+				{opportunity.date && (
+					<p className="detail-item">
+						<strong>Date(s):</strong> {opportunity.date}
+					</p>
+				)}
+				{opportunity.time && (
+					<p className="detail-item">
+						<strong>Time(s):</strong> {opportunity.time}
+					</p>
+				)}
+				{opportunity.length && (
+					<p className="detail-item">
+						<strong>Duration:</strong> {opportunity.length}
+					</p>
+				)}
+				{opportunity.location && (
+					<p className="detail-item">
+						<strong>Location:</strong> {opportunity.location}
+					</p>
+				)}
 				{savedOpportunities[opportunity.id] ? (
 					<button
 						onClick={(event) => handleUnsaveOpportunity(opportunity.id, event)}

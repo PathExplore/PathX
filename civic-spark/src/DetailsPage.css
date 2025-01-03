@@ -6,7 +6,7 @@
 	justify-content: center;
 	align-items: flex-start;
 	gap: 40px;
-    height: 100vh;
+	height: 100vh;
 }
 
 .left-panel,
@@ -19,7 +19,7 @@
 
 .left-panel {
 	flex: 2;
-	max-width: 600px;
+	max-width: 1000px;
 	text-align: left;
 }
 
@@ -115,31 +115,31 @@
 .save-button {
 	background-color: #e76f51;
 	color: white;
-    border-color: #e76f51;
-    border-style: solid;
+	border-color: #e76f51;
+	border-style: solid;
 }
 
 .save-button:hover {
 	background-color: #d35442;
-    border-color: #d35442;
+	border-color: #d35442;
 }
 
 .unsave-button {
 	background-color: #e83443;
 	color: white;
-    border-color: #e83443;
-    border-style: solid;
-    font-weight: bold;
+	border-color: #e83443;
+	border-style: solid;
+	font-weight: bold;
 }
 
 .unsave-button:hover {
 	background-color: #c32d36;
-    border-color: #c32d36;
+	border-color: #c32d36;
 }
 
 .opp-image {
-    width: 100%;
-    margin-bottom: 20px;
+	width: 100%;
+	margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
