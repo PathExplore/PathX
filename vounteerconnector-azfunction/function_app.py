@@ -28,7 +28,10 @@ app = func.FunctionApp()
 # # flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rukshik:UmaKiran12@civicspark.postgres.database.azure.com:5432/CivicSpark'
 # flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 Base = declarative_base()
-engine = create_engine("postgresql://postgres:UmaKiran@localhost:5432/CivicSpark")
+# engine = create_engine("postgresql://postgres:UmaKiran@localhost:5432/CivicSpark")
+engine = create_engine(
+    "postgresql://rukshik:UmaKiran12@civicspark.postgres.database.azure.com:5432/CivicSpark"
+)
 Session = sessionmaker(bind=engine)
 session = Session()
 # CORS(flask_app)
