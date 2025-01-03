@@ -72,7 +72,7 @@ class VolunteeringOpportunity(Base):
 
 
 @app.schedule(
-    schedule="0 * * * * *", arg_name="myTimer", run_on_startup=True, use_monitor=False
+    schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True, use_monitor=False
 )
 def fetch_volunteerconnector_opps(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due:
