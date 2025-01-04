@@ -71,12 +71,17 @@ class VolunteeringOpportunity(Base):
     organization = relationship("Organization", backref="volunteering_opportunities")
 
 
-@app.function_name(name="fetch-volunteerconnector-opps")
-@app.schedule(
-    schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True, use_monitor=False
+@app.function_name(name="fetchVolnteerConnectorOpps")
+@app.timer_trigger(
+    schedule="0 0 * * * *",
+    arg_name="fetchVolnteerConnectorOpps",
+    run_on_startup=True,
+    use_monitor=False,
 )
-def fetch_volunteerconnector_opps(myTimer: func.TimerRequest) -> None:
-    if myTimer.past_due:
+def fetch_volunteerconnector_opps(
+    fetchVolnteerConnectorOpps: func.TimerRequest,
+) -> None:
+    if fetchVolnteerConnectorOpps.past_due:
         logging.info("The timer is past due!")
     logging.info("Fetching opportunities from VolunteerConnector\n\n")
 
