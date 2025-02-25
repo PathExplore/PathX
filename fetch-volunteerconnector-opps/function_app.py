@@ -3,10 +3,6 @@ import azure.functions as func
 import requests
 from bs4 import BeautifulSoup
 import lxml
-
-# from flask import Flask, request, jsonify
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_cors import CORS
 from sqlalchemy import (
     create_engine,
     func as db_func,
@@ -21,12 +17,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
 app = func.FunctionApp()
-# flask_app = Flask(__name__)
-# flask_app.config["SQLALCHEMY_DATABASE_URI"] = (
-#     "postgresql://postgres:UmaKiran@localhost:5432/CivicSpark"
-# )
-# # flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://rukshik:UmaKiran12@civicspark.postgres.database.azure.com:5432/CivicSpark'
-# flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 Base = declarative_base()
 # engine = create_engine("postgresql://postgres:UmaKiran@localhost:5432/CivicSpark")
 engine = create_engine(
@@ -34,7 +24,6 @@ engine = create_engine(
 )
 Session = sessionmaker(bind=engine)
 session = Session()
-# CORS(flask_app)
 
 
 class User(Base):
