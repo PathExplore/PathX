@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 import { AgGridReact } from "ag-grid-react";
 import "./DashboardPage.css";
 import "ag-grid-community/styles/ag-grid.css";
@@ -15,7 +15,7 @@ import {
 	OAuthProvider,
 } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { getUserIdByEmail } from "./apiUtils";
+import { getUserIdByEmail } from "../apiUtils";
 import { Bar, Pie } from "react-chartjs-2";
 import {
 	Chart as ChartJS,
@@ -296,7 +296,7 @@ const DashboardPage = () => {
 			field: "title",
 			flex: 1,
 			cellRenderer: (params) => {
-				const url = "/opportunity/" + params.data.id || "#";
+				const url = "/volunteering/opportunity/" + params.data.id || "#";
 				return (
 					<Link to={url} rel="noopener noreferrer" className="saved-sign-up">
 						{params.value}
@@ -317,7 +317,7 @@ const DashboardPage = () => {
 			field: "name",
 			flex: 1,
 			cellRenderer: (params) => {
-				const url = "/organization/" + params.data.id || "#";
+				const url = "/volunteering/organization/" + params.data.id || "#";
 				return (
 					<Link to={url} rel="noopener noreferrer" className="saved-sign-up">
 						{params.value}

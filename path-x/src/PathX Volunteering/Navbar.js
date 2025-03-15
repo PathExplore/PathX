@@ -8,10 +8,9 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 import "./Navbar.css";
-import AuthModal from "./AuthModal";
-import logo from "./images/civicspark-logo.png";
+import AuthModal from "../AuthModal";
 
 const Navbar = () => {
 	const [user, setUser] = useState(null);
@@ -58,7 +57,7 @@ const Navbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/dashboard");
+			navigate("/volunteering/dashboard");
 		} catch (error) {
 			console.error("Error signing in with Google:", error);
 			addNotification(
@@ -77,7 +76,7 @@ const Navbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/dashboard");
+			navigate("/volunteering/dashboard");
 		} catch (error) {
 			console.error("Error signing in with Microsoft:", error);
 			addNotification(
@@ -92,7 +91,7 @@ const Navbar = () => {
 			await signOut(auth);
 			setUser(null);
 			addNotification("Signed out successfully.", "success");
-			navigate("/");
+			navigate("/volunteering");
 		} catch (error) {
 			console.error("Error signing out:", error);
 			addNotification(
@@ -113,16 +112,20 @@ const Navbar = () => {
 	return (
 		<>
 			<nav className="navbar">
-				<a href="/" className="navbar-brand">
-					<img src={logo} alt="CivicSpark Logo" className="navbar-logo" />
-					CivicSpark
+				<a href="/volunteering" className="navbar-brand">
+					<img
+						src="/images/pathX-volunteering-logo.png"
+						alt="PathX Logo"
+						className="navbar-logo"
+					/>
+					PathX Volunteering
 				</a>
 				<ul className="navbar-links">
 					<li>
-						<a href="/dashboard">Dashboard</a>
+						<a href="/volunteering/dashboard">Dashboard</a>
 					</li>
 					<li>
-						<a href="/opportunities">Opportunities</a>
+						<a href="/volunteering/opportunities">Opportunities</a>
 					</li>
 					<li>
 						<a href="/about">About</a>

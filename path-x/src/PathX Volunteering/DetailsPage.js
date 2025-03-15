@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 import { getAuth } from "firebase/auth";
-import { getUserIdByEmail } from "./apiUtils";
+import { getUserIdByEmail } from "../apiUtils";
 import "./DetailsPage.css";
 
 const DetailsPage = () => {
@@ -154,7 +154,7 @@ const DetailsPage = () => {
 				<h1>{opportunity.title}</h1>
 				<div className="organization-info">
 					<Link
-						to={`/organization/${opportunity.org_id}`}
+						to={`/volunteering/organization/${opportunity.org_id}`}
 						className="org-link"
 						rel="noopener noreferrer"
 					>

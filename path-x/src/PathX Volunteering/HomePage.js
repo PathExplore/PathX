@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./HomePage.css";
-import logo from "./images/civicspark-logo.png";
-import AuthModal from "./AuthModal";
+import AuthModal from "../AuthModal";
 import {
 	getAuth,
 	signInWithPopup,
@@ -11,7 +10,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 
 const HomePage = () => {
 	const [user, setUser] = useState(null);
@@ -100,8 +99,12 @@ const HomePage = () => {
 			<header className="header">
 				<div className="header-content">
 					<div className="header-title">
-						<img src={logo} alt="civicspark-logo" className="header-logo" />
-						<h1 className="app-title">CivicSpark</h1>
+						<img
+							src="/images/pathX-volunteering-logo.png"
+							alt="pathX-volunteering-logo"
+							className="header-logo"
+						/>
+						<h1 className="app-title">PathX Volunteering</h1>
 					</div>
 					<p className="tagline">
 						Empowering communities through connection, collaboration, and
@@ -124,9 +127,9 @@ const HomePage = () => {
 
 			<main>
 				<section className="introduction">
-					<h2>About CivicSpark</h2>
+					<h2>About PathX Volunteering</h2>
 					<p>
-						CivicSpark is your go-to platform for discovering volunteer
+						PathX Volunteering is your go-to platform for discovering volunteer
 						opportunities, attending local events, and accessing valuable
 						resources to help your community. Together, we can make a
 						difference.
@@ -172,8 +175,8 @@ const HomePage = () => {
 					<h2>What Our Users Say</h2>
 					<div className="testimonial">
 						<blockquote>
-							"CivicSpark has transformed the way I engage with my neighborhood.
-							It’s never been easier to find meaningful volunteer
+							"PathX Volunteering has transformed the way I engage with my
+							neighborhood. It’s never been easier to find meaningful volunteer
 							opportunities!"
 						</blockquote>
 						<p>- Sarah M., Volunteer</p>
@@ -209,7 +212,7 @@ const HomePage = () => {
 
 			<footer className="footer">
 				<div className="footer-content">
-					<p>© 2024 CivicSpark. All Rights Reserved.</p>
+					<p>© 2025 PathX. All Rights Reserved.</p>
 					<nav>
 						<a href="#privacy">Privacy Policy</a> |{" "}
 						<a href="#terms">Terms of Service</a> |{" "}

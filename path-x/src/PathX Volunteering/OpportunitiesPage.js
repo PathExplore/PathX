@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 import axios from "axios";
 import "./OpportunitiesPage.css";
-import { getUserIdByEmail } from "./apiUtils";
+import { getUserIdByEmail } from "../apiUtils";
 import { getAuth } from "firebase/auth";
 import { Link } from "react-router-dom";
 
@@ -296,14 +296,14 @@ const OpportunitiesPage = () => {
 				<div className="opportunity-grid" key={JSON.stringify(filters)}>
 					{opportunities.map((opp) => (
 						<Link
-							to={`/opportunity/${opp.id}`}
+							to={`/volunteering/opportunity/${opp.id}`}
 							key={opp.id}
 							className="card-link"
 						>
 							<div key={opp.id} className="opportunity-card">
 								<div className="opp-organization-info">
 									<Link
-										to={`/organization/${opp.org_id}`}
+										to={`/volunteering/organization/${opp.org_id}`}
 										className="org-link"
 										rel="noopener noreferrer"
 									>

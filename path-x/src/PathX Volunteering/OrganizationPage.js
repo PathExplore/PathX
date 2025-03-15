@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNotification } from "./NotificationContext";
+import { useNotification } from "../NotificationContext";
 import axios from "axios";
 import "./OrganizationPage.css";
 import { Link, useParams } from "react-router-dom";
-import { getUserIdByEmail } from "./apiUtils";
+import { getUserIdByEmail } from "../apiUtils";
 import { getAuth } from "firebase/auth";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -99,7 +99,7 @@ const OrganizationPage = () => {
 			field: "title",
 			flex: 1,
 			cellRenderer: (params) => {
-				const url = "/opportunity/" + params.data.id || "#";
+				const url = "/volunteering/opportunity/" + params.data.id || "#";
 				return (
 					<Link to={url} rel="noopener noreferrer" className="saved-sign-up">
 						{params.value}
