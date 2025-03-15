@@ -9,10 +9,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useNotification } from "../NotificationContext";
-import "./Navbar.css";
+import "./VolunteeringNavbar.css";
 import AuthModal from "../AuthModal";
 
-const Navbar = () => {
+const VolunteeringNavbar = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const auth = getAuth();
@@ -132,19 +132,18 @@ const Navbar = () => {
 					</li>
 					{user ? (
 						<li>
-							<a href="#" className="signout-button" onClick={handleSignOut}>
+							<button className="signout-button" onClick={handleSignOut}>
 								Sign Out
-							</a>
+							</button>
 						</li>
 					) : (
 						<li>
-							<a
-								href="#"
+							<button
 								className="signin-button"
 								onClick={() => setModalOpen(true)}
 							>
 								Sign In
-							</a>
+							</button>
 						</li>
 					)}
 				</ul>
@@ -160,4 +159,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default VolunteeringNavbar;

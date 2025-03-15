@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./HomePage.css";
+import "./VolunteeringHomePage.css";
 import AuthModal from "../AuthModal";
 import {
 	getAuth,
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useNotification } from "../NotificationContext";
 
-const HomePage = () => {
+const VolunteeringHomePage = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const auth = getAuth();
@@ -231,4 +231,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default VolunteeringHomePage;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNotification } from "../NotificationContext";
 import { AgGridReact } from "ag-grid-react";
-import "./DashboardPage.css";
+import "./VolunteeringDashboardPage.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
@@ -39,7 +39,7 @@ ChartJS.register(
 	Legend
 );
 
-const DashboardPage = () => {
+const VolunteeringDashboardPage = () => {
 	const [userData, setUserData] = useState({
 		pastOpportunities: [],
 		savedOpportunities: [],
@@ -586,4 +586,4 @@ const DashboardPage = () => {
 	);
 };
 
-export default DashboardPage;
+export default VolunteeringDashboardPage;

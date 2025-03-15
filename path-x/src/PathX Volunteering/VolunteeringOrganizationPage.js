@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNotification } from "../NotificationContext";
 import axios from "axios";
-import "./OrganizationPage.css";
+import "./VolunteeringOrganizationPage.css";
 import { Link, useParams } from "react-router-dom";
 import { getUserIdByEmail } from "../apiUtils";
 import { getAuth } from "firebase/auth";
@@ -9,7 +9,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-const OrganizationPage = () => {
+const VolunteeringOrganizationPage = () => {
 	const { orgId } = useParams(); // Get organization ID from URL
 	const [organization, setOrganization] = useState(null);
 	const [opportunities, setOpportunities] = useState([]);
@@ -189,4 +189,4 @@ const OrganizationPage = () => {
 	);
 };
 
-export default OrganizationPage;
+export default VolunteeringOrganizationPage;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNotification } from "../NotificationContext";
 import axios from "axios";
-import "./OpportunitiesPage.css";
+import "./VolunteeringOpportunitiesPage.css";
 import { getUserIdByEmail } from "../apiUtils";
 import { getAuth } from "firebase/auth";
 import { Link } from "react-router-dom";
 
-const OpportunitiesPage = () => {
+const VolunteeringOpportunitiesPage = () => {
 	const [opportunities, setOpportunities] = useState([]);
 	const [filters, setFilters] = useState({ categories: {}, skills: {} });
 	const [zipCode, setZipCode] = useState(""); // ZIP Code filter state
@@ -382,4 +382,4 @@ const OpportunitiesPage = () => {
 	);
 };
 
-export default OpportunitiesPage;
+export default VolunteeringOpportunitiesPage;

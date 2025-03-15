@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./PathX Volunteering/HomePage";
-import DashboardPage from "./PathX Volunteering/DashboardPage";
-import OpportunitiesPage from "./PathX Volunteering/OpportunitiesPage";
-import Navbar from "./PathX Volunteering/Navbar";
+import VolunteeringHomePage from "./PathX Volunteering/VolunteeringHomePage";
+import VolunteeringDashboardPage from "./PathX Volunteering/VolunteeringDashboardPage";
+import VolunteeringOpportunitiesPage from "./PathX Volunteering/VolunteeringOpportunitiesPage";
+import VolunteeringNavbar from "./PathX Volunteering/VolunteeringNavbar";
 import ErrorPage from "./ErrorPage";
 import reportWebVitals from "./reportWebVitals";
 import { NotificationProvider } from "./NotificationContext";
@@ -13,8 +13,9 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import AboutPage from "./AboutPage";
-import DetailsPage from "./PathX Volunteering/DetailsPage";
-import OrganizationPage from "./PathX Volunteering/OrganizationPage";
+import VolunteeringDetailsPage from "./PathX Volunteering/VolunteeringDetailsPage";
+import VolunteeringOrganizationPage from "./PathX Volunteering/VolunteeringOrganizationPage";
+import HomePage from "./HomePage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -35,25 +36,30 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<NotificationProvider>
-				<Navbar />
+				<VolunteeringNavbar />
 				<Routes>
-					<Route path="/volunteering" element={<HomePage />} />
+					<Route path="/" element={<HomePage />} />
+					<Route path="/volunteering" element={<VolunteeringHomePage />} />
 					<Route
 						path="/volunteering/dashboard"
-						element={<ProtectedRoute element={<DashboardPage />} />}
+						element={<ProtectedRoute element={<VolunteeringDashboardPage />} />}
 					/>
 					<Route
 						path="/volunteering/opportunities"
-						element={<ProtectedRoute element={<OpportunitiesPage />} />}
+						element={
+							<ProtectedRoute element={<VolunteeringOpportunitiesPage />} />
+						}
 					/>
 					<Route path="/about" element={<AboutPage />} />
 					<Route
 						path="/volunteering/opportunity/:id"
-						element={<ProtectedRoute element={<DetailsPage />} />}
+						element={<ProtectedRoute element={<VolunteeringDetailsPage />} />}
 					/>
 					<Route
 						path="/volunteering/organization/:orgId"
-						element={<ProtectedRoute element={<OrganizationPage />} />}
+						element={
+							<ProtectedRoute element={<VolunteeringOrganizationPage />} />
+						}
 					/>
 					<Route path="*" element={<ErrorPage />} />
 				</Routes>

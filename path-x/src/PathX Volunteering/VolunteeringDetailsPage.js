@@ -4,9 +4,9 @@ import axios from "axios";
 import { useNotification } from "../NotificationContext";
 import { getAuth } from "firebase/auth";
 import { getUserIdByEmail } from "../apiUtils";
-import "./DetailsPage.css";
+import "./VolunteeringDetailsPage.css";
 
-const DetailsPage = () => {
+const VolunteeringDetailsPage = () => {
 	const { id } = useParams(); // Get the opportunity ID from the URL
 	const [opportunity, setOpportunity] = useState(null);
 	const { addNotification } = useNotification();
@@ -258,4 +258,4 @@ const DetailsPage = () => {
 	);
 };
 
-export default DetailsPage;
+export default VolunteeringDetailsPage;
