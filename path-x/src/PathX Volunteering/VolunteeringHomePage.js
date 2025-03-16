@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./VolunteeringHomePage.css";
-import AuthModal from "../AuthModal";
+import VolunteeringAuthModal from "./VolunteeringAuthModal";
 import {
 	getAuth,
 	signInWithPopup,
@@ -112,7 +112,7 @@ const VolunteeringHomePage = () => {
 					</p>
 					{user ? (
 						<p className="welcome-message">
-							Welcome, {user.displayName || user.email}.
+							Welcome back, {user.displayName || user.email}!
 						</p>
 					) : (
 						<button
@@ -221,7 +221,7 @@ const VolunteeringHomePage = () => {
 				</div>
 			</footer>
 
-			<AuthModal
+			<VolunteeringAuthModal
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				onGoogleSignIn={handleGoogleSignIn}

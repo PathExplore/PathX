@@ -1,0 +1,88 @@
+.main-navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 30px;
+	background-color: #484cec; /* Primary color */
+	color: white;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+}
+
+.navbar-brand {
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+.navbar-logo {
+	width: 40px;
+	height: 40px;
+	margin-right: 10px;
+}
+
+.navbar-links {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+}
+
+.navbar-links li {
+	font-size: 1rem;
+}
+
+.navbar-links a {
+	text-decoration: none;
+	color: white;
+	transition: all 0.3s ease;
+	padding: 8px 15px;
+	border-radius: 5px;
+}
+
+.navbar-links a:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-links a:active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.signin-button {
+	display: inline-block;
+	background: #ff6f61; /* Coral color */
+	color: white;
+	font-size: 1rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	padding: 12px 30px;
+}
+
+.signin-button:hover {
+	background: #ff4a3d; /* Darker coral */
+}
+
+.signout-button {
+	display: inline-block;
+	background: transparent;
+	color: #ff6f61; /* Coral color */
+	border: 2px solid #ff6f61;
+	font-size: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-weight: bold;
+	padding: 11px 15px;
+}
+
+.signout-button:hover {
+	background: #ff6f61; /* Coral color */
+	color: white;
+}

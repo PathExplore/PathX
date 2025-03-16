@@ -1,11 +1,11 @@
-.error-page {
+.competitions-page {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	height: 100vh;
-	background: linear-gradient(135deg, #2575fc, #6a11cb) !important;
+	background: linear-gradient(135deg, #eb1313, #f72fbb);
 	color: #ffffff;
 	font-family: "Inter", sans-serif;
 	padding: 20px;

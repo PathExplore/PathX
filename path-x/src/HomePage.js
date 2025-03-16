@@ -20,6 +20,14 @@ const HomePage = () => {
 	const { addNotification } = useNotification();
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+			setUser(currentUser);
+		});
+
+		return () => unsubscribe();
+	}, [auth]);
+
 	const saveUserToDatabase = async (userData) => {
 		try {
 			const response = await axios.post(
@@ -129,24 +137,24 @@ const HomePage = () => {
 			<section className="main-features-section">
 				<h2>What We Offer</h2>
 				<div className="main-feature-cards">
-					<div className="main-feature-card">
+					<a className="main-feature-card" href={"/volunteering"}>
 						<h3>Volunteering</h3>
 						<p>
 							Make a difference in your community and gain valuable experience.
 						</p>
-					</div>
-					<div className="main-feature-card">
+					</a>
+					<a className="main-feature-card" href={"/internships"}>
 						<h3>Internships</h3>
 						<p>Explore real-world opportunities to kickstart your career.</p>
-					</div>
-					<div className="main-feature-card">
+					</a>
+					<a className="main-feature-card" href={"/summer-programs"}>
 						<h3>Summer Programs</h3>
 						<p>Learn, grow, and explore new interests during your summer.</p>
-					</div>
-					<div className="main-feature-card">
+					</a>
+					<a className="main-feature-card" href={"/competitions"}>
 						<h3>Competitions</h3>
 						<p>Challenge yourself and showcase your skills.</p>
-					</div>
+					</a>
 				</div>
 			</section>
 

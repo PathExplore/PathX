@@ -8,11 +8,11 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNotification } from "../NotificationContext";
-import "./VolunteeringNavbar.css";
-import VolunteeringAuthModal from "./VolunteeringAuthModal";
+import { useNotification } from "./NotificationContext";
+import "./Navbar.css";
+import AuthModal from "./AuthModal";
 
-const VolunteeringNavbar = () => {
+const Navbar = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const auth = getAuth();
@@ -57,7 +57,7 @@ const VolunteeringNavbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/volunteering/dashboard");
+			navigate("/");
 		} catch (error) {
 			console.error("Error signing in with Google:", error);
 			addNotification(
@@ -76,7 +76,7 @@ const VolunteeringNavbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/volunteering/dashboard");
+			navigate("/");
 		} catch (error) {
 			console.error("Error signing in with Microsoft:", error);
 			addNotification(
@@ -111,21 +111,27 @@ const VolunteeringNavbar = () => {
 
 	return (
 		<>
-			<nav className="navbar">
-				<a href="/volunteering" className="navbar-brand">
+			<nav className="main-navbar">
+				<a href="/" className="navbar-brand">
 					<img
-						src="/images/pathX-volunteering-logo.png"
+						src="/images/pathx-logo.png"
 						alt="PathX Logo"
 						className="navbar-logo"
 					/>
-					PathX Volunteering
+					PathX
 				</a>
 				<ul className="navbar-links">
 					<li>
-						<a href="/volunteering/dashboard">Dashboard</a>
+						<a href="/volunteering">Volunteering</a>
 					</li>
 					<li>
-						<a href="/volunteering/opportunities">Opportunities</a>
+						<a href="/internships">Internships</a>
+					</li>
+					<li>
+						<a href="/summer-programs">Summer Programs</a>
+					</li>
+					<li>
+						<a href="/competitions">Competitions</a>
 					</li>
 					<li>
 						<a href="/about">About</a>
@@ -149,7 +155,7 @@ const VolunteeringNavbar = () => {
 				</ul>
 			</nav>
 
-			<VolunteeringAuthModal
+			<AuthModal
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				onGoogleSignIn={handleGoogleSignIn}
@@ -159,4 +165,4 @@ const VolunteeringNavbar = () => {
 	);
 };
 
-export default VolunteeringNavbar;
+export default Navbar;

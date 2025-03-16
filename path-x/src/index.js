@@ -16,13 +16,17 @@ import AboutPage from "./AboutPage";
 import VolunteeringDetailsPage from "./PathX Volunteering/VolunteeringDetailsPage";
 import VolunteeringOrganizationPage from "./PathX Volunteering/VolunteeringOrganizationPage";
 import HomePage from "./HomePage";
+import Navbar from "./Navbar";
+import InternshipsHomePage from "./PathX Internships/InternshipsHomePage";
+import SummerProgramsHomePage from "./PathX Summer Programs/SummerProgramsHomePage";
+import CompetitionsHomePage from "./PathX Competitions/CompetitionsHomePage";
 
 // Firebase configuration
 const firebaseConfig = {
 	apiKey: "AIzaSyAhQQRDG2IK5WxeF0YHumVaB92NepnZfrs",
 	authDomain: "civicspark-app.firebaseapp.com",
 	projectId: "civicspark-app",
-	storageBucket: "civicspark-app.firebasestorage.app",
+	storageBucket: "civicspark-app.appspot.com",
 	messagingSenderId: "993495302329",
 	appId: "1:993495302329:web:3f49e9998ec75e6d13db68",
 	measurementId: "G-5LCYV8EW5L",
@@ -36,32 +40,69 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<NotificationProvider>
-				<VolunteeringNavbar />
 				<Routes>
-					<Route path="/" element={<HomePage />} />
-					<Route path="/volunteering" element={<VolunteeringHomePage />} />
 					<Route
-						path="/volunteering/dashboard"
-						element={<ProtectedRoute element={<VolunteeringDashboardPage />} />}
-					/>
-					<Route
-						path="/volunteering/opportunities"
+						path="/*"
 						element={
-							<ProtectedRoute element={<VolunteeringOpportunitiesPage />} />
+							<>
+								<Navbar />
+								<Routes>
+									<Route path="/" element={<HomePage />} />
+									<Route path="/about" element={<AboutPage />} />
+									<Route path="*" element={<ErrorPage />} />
+								</Routes>
+							</>
 						}
 					/>
-					<Route path="/about" element={<AboutPage />} />
+
 					<Route
-						path="/volunteering/opportunity/:id"
-						element={<ProtectedRoute element={<VolunteeringDetailsPage />} />}
-					/>
-					<Route
-						path="/volunteering/organization/:orgId"
+						path="/volunteering/*"
 						element={
-							<ProtectedRoute element={<VolunteeringOrganizationPage />} />
+							<>
+								<VolunteeringNavbar />
+								<Routes>
+									<Route path="/" element={<VolunteeringHomePage />} />
+									<Route
+										path="/dashboard"
+										element={
+											<ProtectedRoute element={<VolunteeringDashboardPage />} />
+										}
+									/>
+									<Route
+										path="/opportunities"
+										element={
+											<ProtectedRoute
+												element={<VolunteeringOpportunitiesPage />}
+											/>
+										}
+									/>
+									<Route
+										path="/opportunity/:id"
+										element={
+											<ProtectedRoute element={<VolunteeringDetailsPage />} />
+										}
+									/>
+									<Route
+										path="/organization/:orgId"
+										element={
+											<ProtectedRoute
+												element={<VolunteeringOrganizationPage />}
+											/>
+										}
+									/>
+								</Routes>
+							</>
 						}
 					/>
-					<Route path="*" element={<ErrorPage />} />
+
+					{/* Internships */}
+					<Route path="/internships" element={<InternshipsHomePage />} />
+
+					{/* Summer Programs */}
+					<Route path="/summer-programs" element={<SummerProgramsHomePage />} />
+
+					{/* Competitions */}
+					<Route path="/competitions" element={<CompetitionsHomePage />} />
 				</Routes>
 			</NotificationProvider>
 		</BrowserRouter>
