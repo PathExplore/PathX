@@ -112,14 +112,15 @@ body {
 .feature-card {
 	background: white;
 	border-radius: 8px;
-	padding: 20px;
+	padding: 30px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	text-align: left;
 	transition: all 0.3s ease;
+	text-align: center;
 }
 
 .feature-card:hover {
-	transform: translateY(-5px);
+	transform: translateY(-10px);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 

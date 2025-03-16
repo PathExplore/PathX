@@ -127,13 +127,20 @@ const VolunteeringHomePage = () => {
 
 			<main>
 				<section className="introduction">
-					<h2>About PathX Volunteering</h2>
-					<p>
-						PathX Volunteering is your go-to platform for discovering volunteer
-						opportunities, attending local events, and accessing valuable
-						resources to help your community. Together, we can make a
-						difference.
-					</p>
+					<div className="content-wrapper">
+						<h2>About PathX Volunteering</h2>
+						<p>
+							PathX Volunteering is your go-to platform for discovering hundreds
+							of volunteer opportunities, attending local events, and accessing
+							valuable resources to help your community. Our free, user-friendly
+							tools empower you to easily search, track, and manage your
+							volunteer activities, including logging hours and staying
+							organized with upcoming events. Whether you're passionate about
+							education, the environment, social justice, or beyond, PathX
+							Volunteering connects you with meaningful ways to give back and
+							make a lasting impact. Together, we can make a difference.
+						</p>
+					</div>
 				</section>
 
 				<section className="features">

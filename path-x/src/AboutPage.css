@@ -19,7 +19,6 @@ section {
 
 /* Hero Section */
 .hero-section {
-	background: linear-gradient(135deg, #264653, #2a9d8f);
 	color: #fff;
 	text-align: center;
 	padding: 80px 20px;
@@ -86,7 +85,7 @@ section {
 
 .timeline-item h3 {
 	font-size: 1.2rem;
-	color: #2a9d8f;
+	color: #484cec;
 	margin-bottom: 5px;
 }
 
@@ -100,7 +99,7 @@ section {
 
 .origin-story-section h2 {
 	font-size: 2rem;
-	color: #2a9d8f;
+	color: #484cec;
 	margin-bottom: 20px;
 }
 
@@ -111,6 +110,12 @@ section {
 }
 
 /* Skills Section */
+.skills-content-wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 .skills-section {
 	background: #e9ecef;
 }
@@ -142,7 +147,7 @@ section {
 
 .skill-card i {
 	font-size: 2rem;
-	color: #2a9d8f;
+	color: #484cec;
 	margin-bottom: 10px;
 }
 
@@ -151,9 +156,13 @@ section {
 	color: #555;
 }
 
+.fa-paint-brush {
+	margin-top: 11px;
+}
+
 /* Contact Section */
 .contact-section {
-	background: linear-gradient(135deg, #2a9d8f, #264653);
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
 	color: #fff;
 }
 

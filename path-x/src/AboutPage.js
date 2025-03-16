@@ -23,16 +23,18 @@ const AboutPage = () => {
 					<h2>About Me</h2>
 					<p>
 						Hi, I’m Rukshik, a passionate developer who loves turning ideas into
-						reality through technology. My journey started with curiosity about
-						how websites work, which evolved into a deep passion for crafting
-						engaging digital experiences.
+						reality through technology. I’m a high school student with a
+						fascination for all aspects of computer science, including
+						artificial intelligence, website development, machine learning, data
+						science, and more! I’m always eager to learn new things and explore
+						the endless possibilities of the digital world.
 					</p>
 				</div>
 			</section>
 
 			{/* Skills Section */}
 			<section className="skills-section">
-				<div className="content-wrapper">
+				<div className="skills-content-wrapper">
 					<h2 className="skill-header">Skills & Interests</h2>
 					<div className="skills-grid">
 						<div className="skill-card">
@@ -42,6 +44,14 @@ const AboutPage = () => {
 						<div className="skill-card">
 							<i className="fa fa-paint-brush"></i>
 							<p>UI/UX Design</p>
+						</div>
+						<div className="skill-card">
+							<i class="fa-solid fa-robot"></i>
+							<p>Artificial Intelligence</p>
+						</div>
+						<div className="skill-card">
+							<i class="fa-solid fa-database"></i>
+							<p>Machine Learning & Data Science</p>
 						</div>
 						<div className="skill-card">
 							<i className="fa fa-lightbulb"></i>
@@ -60,13 +70,20 @@ const AboutPage = () => {
 				<div className="content-wrapper">
 					<h2>How The Idea Came to Life</h2>
 					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-						culpa qui officia deserunt mollit anim id est laborum.
+						As a high schooler, I’ve spent countless hours scouring the internet
+						for opportunities like internships, competitions, summer programs,
+						and volunteering experiences. It was frustrating to find that many
+						of the best resources were hidden behind paywalls or scattered
+						across dozens of websites, making the process overwhelming and
+						time-consuming. I realized that if I was struggling to find these
+						opportunities, other students probably were too. That’s when the
+						idea for PathX was born — a free, one-stop platform designed to make
+						it easy for high schoolers to discover and access high-quality
+						opportunities all in one place. I wanted to create something that
+						would save students the stress and hassle I went through, empowering
+						them to explore their passions and build their futures without
+						barriers. PathX is my way of giving back and making sure no student
+						has to navigate this journey alone.
 					</p>
 				</div>
 			</section>
