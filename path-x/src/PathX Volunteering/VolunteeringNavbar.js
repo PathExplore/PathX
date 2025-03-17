@@ -111,11 +111,11 @@ const VolunteeringNavbar = () => {
 
 	return (
 		<>
-			<nav className="navbar">
+			<nav className="volunteering-navbar">
 				<a href="/volunteering" className="navbar-brand">
 					<img
 						src="/images/pathX-volunteering-logo.png"
-						alt="PathX Logo"
+						alt="PathX Volunteering Logo"
 						className="navbar-logo"
 					/>
 					PathX Volunteering

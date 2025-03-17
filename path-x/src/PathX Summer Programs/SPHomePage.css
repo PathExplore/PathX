@@ -12,14 +12,14 @@ body {
 	background-color: #f9f9f9;
 }
 
-.home-container {
+.summer-programs-home-container {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 }
 
-.header {
-	background: linear-gradient(135deg, #264653, #2a9d8f);
+.sp-header {
+	background: linear-gradient(135deg, #ff6a00, #ffd700);
 	color: white;
 	padding: 60px 20px;
 	text-align: center;
@@ -53,25 +53,6 @@ body {
 	margin: 20px 0;
 }
 
-.cta-button {
-	display: inline-block;
-	margin-top: 20px;
-	background: #e76f51;
-	color: white;
-	font-size: 1rem;
-	font-weight: bold;
-	padding: 12px 30px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: all 0.3s ease;
-}
-
-.cta-button:hover {
-	background: #d35442;
-	transform: translateY(-8px);
-}
-
 .introduction {
 	background-color: white;
 	padding: 40px 20px;
@@ -89,16 +70,16 @@ body {
 	color: #555;
 }
 
-.features {
+.sp-features {
 	padding: 50px 20px;
 	background: #f4f4f4;
 	text-align: center;
 }
 
-.features h2 {
+.sp-features h2 {
 	font-size: 2rem;
 	margin-bottom: 30px;
-	color: #264653;
+	color: #ff6a00; /* Orange for consistency */
 }
 
 .feature-grid {
@@ -109,7 +90,7 @@ body {
 	margin: 0 auto;
 }
 
-.feature-card {
+.sp-feature-card {
 	background: white;
 	border-radius: 8px;
 	padding: 30px;
@@ -119,72 +100,72 @@ body {
 	text-align: center;
 }
 
-.feature-card:hover {
+.sp-feature-card:hover {
 	transform: translateY(-10px);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.feature-card h3 {
+.sp-feature-card h3 {
 	font-size: 1.4rem;
-	color: #2a9d8f;
+	color: #ffd700; /* Orange for consistency */
 	margin-bottom: 10px;
 }
 
-.feature-card p {
+.sp-feature-card p {
 	font-size: 0.95rem;
 	color: #555;
 }
 
-.testimonials {
+.sp-testimonials {
 	background: white;
 	padding: 50px 20px;
 	text-align: center;
 }
 
-.testimonials h2 {
+.sp-testimonials h2 {
 	font-size: 2rem;
-	color: #264653;
+	color: #ff6a00; /* Orange for consistency */
 	margin-bottom: 30px;
 }
 
-.testimonial {
+.sp-testimonial {
 	max-width: 600px;
 	margin: 20px auto;
 	font-style: italic;
 	color: #555;
 }
 
-.testimonial blockquote {
+.sp-testimonial blockquote {
 	font-size: 1.2rem;
 	margin-bottom: 10px;
 }
 
-.testimonial p {
+.sp-testimonial p {
 	font-size: 1rem;
 	font-weight: bold;
-	color: #264653;
+	color: #ff6a00; /* Orange for consistency */
 }
 
-.cta-section {
-	background: linear-gradient(135deg, #2a9d8f, #264653);
+.sp-cta-section {
+	background: linear-gradient(135deg, #ffd700, #ff6a00);
 	color: white;
 	text-align: center;
 	padding: 60px 20px;
 }
 
-.cta-section h2 {
+.sp-cta-section h2 {
 	font-size: 2rem;
 	margin-bottom: 20px;
 }
 
-.cta-section p {
+.sp-cta-section p {
 	font-size: 1rem;
 	margin-bottom: 30px;
 	color: #f0f0f0;
 }
 
 .footer {
-	background: #264653;
+	background: #333;
 	color: #f0f0f0;
 	padding: 20px;
 	text-align: center;
@@ -201,9 +182,9 @@ body {
 	text-decoration: underline;
 }
 
-.volunteering-welcome-message {
+.sp-welcome-message {
 	font-size: 1.2rem;
-	color: #2a9d8f;
+	color: #ffd700; /* Orange for consistency */
 	font-weight: bold;
 	text-align: center;
 	margin-top: 20px;

@@ -18,8 +18,11 @@ import VolunteeringOrganizationPage from "./PathX Volunteering/VolunteeringOrgan
 import HomePage from "./HomePage";
 import Navbar from "./Navbar";
 import InternshipsHomePage from "./PathX Internships/InternshipsHomePage";
-import SummerProgramsHomePage from "./PathX Summer Programs/SummerProgramsHomePage";
+import SPHomePage from "./PathX Summer Programs/SPHomePage";
 import CompetitionsHomePage from "./PathX Competitions/CompetitionsHomePage";
+import SPNavbar from "./PathX Summer Programs/SPNavbar";
+import VolunteeringErrorPage from "./PathX Volunteering/VolunteeringErrorPage";
+import SPErrorPage from "./PathX Summer Programs/SPErrorPage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -90,6 +93,20 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 											/>
 										}
 									/>
+									<Route path="*" element={<VolunteeringErrorPage />} />
+								</Routes>
+							</>
+						}
+					/>
+
+					<Route
+						path="/summer-programs/*"
+						element={
+							<>
+								<SPNavbar />
+								<Routes>
+									<Route path="/" element={<SPHomePage />} />
+									<Route path="*" element={<SPErrorPage />} />
 								</Routes>
 							</>
 						}
@@ -97,9 +114,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 					{/* Internships */}
 					<Route path="/internships" element={<InternshipsHomePage />} />
-
-					{/* Summer Programs */}
-					<Route path="/summer-programs" element={<SummerProgramsHomePage />} />
 
 					{/* Competitions */}
 					<Route path="/competitions" element={<CompetitionsHomePage />} />

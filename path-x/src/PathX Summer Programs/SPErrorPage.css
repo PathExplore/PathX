@@ -1,11 +1,11 @@
-.summer-programs-page {
+.sp-error-page {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	height: 100vh;
-	background: linear-gradient(135deg, #ff6a00, #ffd700);
+	background: linear-gradient(135deg, #ff6a00, #ffd700) !important;
 	color: #ffffff;
 	font-family: "Inter", sans-serif;
 	padding: 20px;

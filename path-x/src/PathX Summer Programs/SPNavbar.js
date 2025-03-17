@@ -8,11 +8,11 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNotification } from "./NotificationContext";
-import "./Navbar.css";
-import AuthModal from "./AuthModal";
+import { useNotification } from "../NotificationContext";
+import "./SPNavbar.css";
+import SPAuthModal from "./SPAuthModal";
 
-const Navbar = () => {
+const SPNavbar = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const auth = getAuth();
@@ -57,7 +57,7 @@ const Navbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/");
+			navigate("/summer-programs/dashboard");
 		} catch (error) {
 			console.error("Error signing in with Google:", error);
 			addNotification(
@@ -76,7 +76,7 @@ const Navbar = () => {
 			setModalOpen(false);
 
 			await saveUserToDatabase(result.user);
-			navigate("/");
+			navigate("/summer-programs/dashboard");
 		} catch (error) {
 			console.error("Error signing in with Microsoft:", error);
 			addNotification(
@@ -111,30 +111,24 @@ const Navbar = () => {
 
 	return (
 		<>
-			<nav className="navbar">
-				<a href="/" className="navbar-brand">
+			<nav className="sp-navbar">
+				<a href="/summer-programs" className="navbar-brand">
 					<img
-						src="/images/pathX-logo.png"
-						alt="PathX Logo"
+						src="/images/pathX-sp-logo.png"
+						alt="PathX Summer Programs Logo"
 						className="navbar-logo"
 					/>
-					PathX
+					PathX Summer Programs
 				</a>
 				<ul className="navbar-links">
 					<li>
-						<a href="/volunteering">Volunteering</a>
+						<a href="/">Home</a>
 					</li>
 					<li>
-						<a href="/internships">Internships</a>
+						<a href="/summer-programs/dashboard">Dashboard</a>
 					</li>
 					<li>
-						<a href="/summer-programs">Summer Programs</a>
-					</li>
-					<li>
-						<a href="/competitions">Competitions</a>
-					</li>
-					<li>
-						<a href="/about">About</a>
+						<a href="/summer-programs/opportunities">Programs</a>
 					</li>
 					{user ? (
 						<li>
@@ -155,7 +149,7 @@ const Navbar = () => {
 				</ul>
 			</nav>
 
-			<AuthModal
+			<SPAuthModal
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				onGoogleSignIn={handleGoogleSignIn}
@@ -165,4 +159,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default SPNavbar;

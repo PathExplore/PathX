@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./VolunteeringHomePage.css";
-import VolunteeringAuthModal from "./VolunteeringAuthModal";
+import "./SPHomePage.css";
+import SPAuthModal from "./SPAuthModal";
 import {
 	getAuth,
 	signInWithPopup,
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useNotification } from "../NotificationContext";
 
-const VolunteeringHomePage = () => {
+const SPHomePage = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const auth = getAuth();
@@ -64,7 +64,7 @@ const VolunteeringHomePage = () => {
 			setUser(result.user);
 
 			await saveUserToDatabase(result.user);
-			navigate("/dashboard");
+			navigate("/summer-programs/dashboard");
 			setModalOpen(false);
 		} catch (error) {
 			console.error("Error signing in with Google:", error);
@@ -83,7 +83,7 @@ const VolunteeringHomePage = () => {
 			setUser(result.user);
 
 			await saveUserToDatabase(result.user);
-			navigate("/dashboard");
+			navigate("/summer-programs/dashboard");
 			setModalOpen(false);
 		} catch (error) {
 			console.error("Error signing in with Microsoft:", error);
@@ -95,23 +95,23 @@ const VolunteeringHomePage = () => {
 	};
 
 	return (
-		<div className="home-container">
-			<header className="header">
+		<div className="summer-programs-home-container">
+			<header className="sp-header">
 				<div className="header-content">
 					<div className="header-title">
 						<img
-							src="/images/pathX-volunteering-logo.png"
-							alt="PathX Volunteering Logo"
+							src="/images/pathX-sp-logo.png"
+							alt="PathX Summer Programs Logo"
 							className="header-logo"
 						/>
-						<h1 className="app-title">PathX Volunteering</h1>
+						<h1 className="app-title">PathX Summer Programs</h1>
 					</div>
 					<p className="tagline">
-						Empowering communities through connection, collaboration, and
-						action.
+						Discover transformative summer experiences to fuel your growth and
+						passions.
 					</p>
 					{user ? (
-						<p className="volunteering-welcome-message">
+						<p className="sp-welcome-message">
 							Welcome back, {user.displayName || user.email}!
 						</p>
 					) : (
@@ -128,81 +128,77 @@ const VolunteeringHomePage = () => {
 			<main>
 				<section className="introduction">
 					<div className="content-wrapper">
-						<h2>About PathX Volunteering</h2>
+						<h2>About PathX Summer Programs</h2>
 						<p>
-							PathX Volunteering is your go-to platform for discovering hundreds
-							of volunteer opportunities, attending local events, and accessing
-							valuable resources to help your community. Our free, user-friendly
-							tools empower you to easily search, track, and manage your
-							volunteer activities, including logging hours and staying
-							organized with upcoming events. Whether you're passionate about
-							education, the environment, social justice, or beyond, PathX
-							Volunteering connects you with meaningful ways to give back and
-							make a lasting impact. Together, we can make a difference.
+							PathX Summer Programs is your gateway to life-changing summer
+							experiences. Whether you're interested in STEM, arts, leadership,
+							or entrepreneurship, we connect you with top-tier programs that
+							inspire, educate, and empower. Our platform makes it easy to
+							search, apply, and manage your summer plans, so you can focus on
+							making the most of your break. Explore hundreds of opportunities,
+							track deadlines, and find the perfect program to ignite your
+							passions and build your future.
 						</p>
 					</div>
 				</section>
 
-				<section className="features">
+				<section className="sp-features">
 					<h2>Why Choose Us?</h2>
 					<div className="feature-grid">
-						<div className="feature-card">
-							<h3>Volunteer Opportunities</h3>
+						<div className="sp-feature-card">
+							<h3>Diverse Programs</h3>
 							<p>
-								Find meaningful ways to give back. From mentoring youth to
-								community cleanups, explore a variety of opportunities.
+								From STEM to the arts, find programs that match your interests
+								and goals.
 							</p>
 						</div>
-						<div className="feature-card">
-							<h3>Feature Card 2</h3>
+						<div className="sp-feature-card">
+							<h3>Easy Application</h3>
 							<p>
-								Lorem ipsum odor amet, consectetuer adipiscing elit. Nec ligula
-								est eros platea tellus.
+								Streamline your summer plans with our user-friendly application
+								tools.
 							</p>
 						</div>
-						<div className="feature-card">
-							<h3>Feature Card 3</h3>
+						<div className="sp-feature-card">
+							<h3>Expert Guidance</h3>
 							<p>
-								Non phasellus nascetur litora ut faucibus. Leo penatibus natoque
-								magnis dictum luctus enim diam velit.
+								Get advice and resources to help you choose the right program
+								for you.
 							</p>
 						</div>
-						<div className="feature-card">
-							<h3>Feature Card 4</h3>
+						<div className="sp-feature-card">
+							<h3>Track Progress</h3>
 							<p>
-								Duis nulla scelerisque fringilla condimentum, eget suscipit
-								ridiculus pretium? Donec duis pretium purus consectetur turpis
-								et iaculis fusce.
+								Manage deadlines, applications, and acceptances all in one
+								place.
 							</p>
 						</div>
 					</div>
 				</section>
 
-				<section className="testimonials">
+				<section className="sp-testimonials">
 					<h2>What Our Users Say</h2>
-					<div className="testimonial">
+					<div className="sp-testimonial">
 						<blockquote>
-							"PathX Volunteering has transformed the way I engage with my
-							neighborhood. It’s never been easier to find meaningful volunteer
-							opportunities!"
+							"PathX Summer Programs helped me find an incredible STEM program
+							that changed my career trajectory!"
 						</blockquote>
-						<p>- Sarah M., Volunteer</p>
+						<p>- Sarah M., Student</p>
 					</div>
-					<div className="testimonial">
+					<div className="sp-testimonial">
 						<blockquote>
-							"As a small business owner, this platform has helped me connect
-							with local events and resources. Highly recommended!"
+							"I discovered so many unique summer opportunities that I never
+							knew existed."
 						</blockquote>
-						<p>- James L., Local Business Owner</p>
+						<p>- James L., Parent</p>
 					</div>
 				</section>
 
-				<section className="cta-section">
-					<h2>Start Your Journey</h2>
+				<section className="sp-cta-section">
+					<h2>Start Your Summer Journey</h2>
 					<p>
-						Ready to make a difference? Join a growing network of engaged
-						individuals and organizations working to improve communities across
-						the globe.
+						Ready to make this summer unforgettable? Join thousands of students
+						who are already exploring their passions with PathX Summer Programs.
 					</p>
 					{user ? (
 						<></>
@@ -228,7 +224,7 @@ const VolunteeringHomePage = () => {
 				</div>
 			</footer>
 
-			<VolunteeringAuthModal
+			<SPAuthModal
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				onGoogleSignIn={handleGoogleSignIn}
@@ -238,4 +234,4 @@ const VolunteeringHomePage = () => {
 	);
 };
 
-export default VolunteeringHomePage;
+export default SPHomePage;
