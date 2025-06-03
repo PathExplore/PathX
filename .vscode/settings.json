@@ -6,6 +6,8 @@
     "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.projectLanguageModel": 2,
     "cSpell.words": [
+        "backref",
+        "jsonify",
         "Kiran",
         "Opps",
         "rukshik"

@@ -1,0 +1,444 @@
+.search-page {
+	padding: 20px;
+	background-color: linear-gradient(180deg, #f9f9f9, #e9ecef);
+	font-family: "Inter", sans-serif;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 30px;
+	margin-left: 240px;
+}
+
+.search-page h1 {
+	font-size: 2.5rem;
+	color: #264653;
+	text-align: center;
+	flex: 1 100%; /* Make sure title takes full width */
+	margin-top: 10px;
+}
+
+.card-link {
+	text-decoration: none;
+	color: inherit; /* Ensures text inherits color from parent */
+	height: 350px;
+	width: 350px;
+}
+
+.card-link:hover {
+	text-decoration: none; /* Prevent underline on hover */
+}
+
+.filters {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 220px;
+	padding: 20px;
+	background-color: #ffffff;
+	border-right: 1px solid #ddd;
+	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding-top: 100px;
+	z-index: 100; /* Ensure it stacks properly */
+}
+
+.filters h2 {
+	font-size: 1.5rem;
+	color: #2a9d8f;
+	margin-bottom: 0px;
+	text-align: center;
+}
+
+.filters label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 1rem;
+	color: #264653;
+}
+
+.filters input[type="checkbox"] {
+	transform: scale(1.2);
+}
+
+.opportunity-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(310px, 0.5fr));
+	gap: 20px; /* Ensures 20px gap in both x and y directions */
+	flex: 1; /* Allow this to take up remaining space */
+	padding-left: 20px; /* Add some padding on the left for space between the filter */
+}
+
+.opportunity-card {
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; /* Centers content vertically */
+	text-align: center; /* Centers text horizontally */
+	transition: all 0.3s ease;
+	overflow: hidden;
+	height: 350px;
+	width: 350px;
+}
+
+.opportunity-card:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.opp-organization-info {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 0px;
+	width: 100%;
+}
+
+.organization-logo {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.org-name-favorite {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.org-name-favorite span {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #2a9d8f;
+	transition: all 0.3s ease;
+	display: -webkit-box; /* Enables line clamping */
+	-webkit-line-clamp: 1; /* Number of lines to show */
+	-webkit-box-orient: vertical; /* Required for webkit line clamping */
+	overflow: hidden; /* Hides overflowed content */
+	text-align: left;
+}
+
+.org-name-favorite:hover span {
+	color: #264653;
+}
+
+.org-link {
+	text-decoration: none !important;
+}
+
+.favorite-button {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	color: #e63946;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.favorite-button:hover {
+	transform: scale(1.2);
+	color: #ac2a35;
+}
+
+.unfavorite-button {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	color: #e63946;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.unfavorite-button:hover {
+	transform: scale(1.2);
+	color: #ac2a35;
+}
+
+.opportunity-card h3 {
+	font-size: 1.5rem;
+	color: #264653;
+	margin: 10px 0;
+	text-align: center !important;
+	display: -webkit-box; /* Enables line clamping */
+	-webkit-line-clamp: 1; /* Number of lines to show */
+	-webkit-box-orient: vertical; /* Required for webkit line clamping */
+	overflow: hidden; /* Hides overflowed content */
+}
+
+.opportunity-description {
+	font-size: 1rem;
+	color: #555;
+	text-align: center;
+	margin-bottom: 10px;
+	line-height: 1.5;
+	display: -webkit-box; /* Enables line clamping */
+	-webkit-line-clamp: 2; /* Number of lines to show */
+	-webkit-box-orient: vertical; /* Required for webkit line clamping */
+	overflow: hidden; /* Hides overflowed content */
+}
+
+.opportunity-category {
+	font-size: 0.9rem;
+	color: white;
+	background-color: #264653;
+	padding: 5px 10px;
+	border-radius: 15px;
+	text-align: center;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	display: -webkit-box; /* Enables line clamping */
+	-webkit-line-clamp: 1; /* Number of lines to show */
+	-webkit-box-orient: vertical; /* Required for webkit line clamping */
+	overflow: hidden; /* Hides overflowed content */
+}
+
+.button-group {
+	display: flex;
+	justify-content: space-between;
+	gap: 15px;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.opp-sign-up-button,
+.opp-save-button,
+.opp-unsave-button {
+	flex: 1;
+	text-align: center;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 25px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-decoration: none;
+}
+
+.opp-sign-up-button {
+	background-color: #2a9d8f;
+	color: white;
+	font-weight: bold;
+}
+
+.opp-sign-up-button:hover {
+	background-color: #264653;
+	transform: translateY(-2px);
+}
+
+.opp-save-button {
+	background-color: #e76f51;
+	color: white;
+}
+
+.opp-save-button:hover {
+	background-color: #d35442;
+	transform: translateY(-2px);
+}
+
+.opp-unsave-button {
+	background-color: #e83443;
+	color: white;
+	font-weight: bold;
+}
+
+.opp-unsave-button:hover {
+	background-color: #c32d36;
+	transform: translateY(-2px);
+}
+
+.opportunity-info {
+	margin-bottom: 2px !important;
+}
+
+/* Dropdown */
+
+.dropdown {
+	position: relative; /* To position the tooltip relative to the button */
+	display: inline-block;
+	background: none !important;
+	border: none !important;
+	margin-top: 0;
+}
+
+.dropdown-toggle {
+	color: #264653;
+	font-size: 1rem;
+	cursor: pointer;
+	text-align: left;
+	position: relative;
+	background: none !important;
+	border: none !important	;
+}
+
+.dropdown-toggle:hover {
+	color: #2a9d8f;
+}
+
+.dropdown-tooltip {
+	position: absolute;
+	top: 0;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: auto; /* Adjust width to accommodate three columns */
+	overflow: visible;
+	opacity: 0; /* Initially hidden */
+	visibility: hidden;
+	transition: all 0.3s ease;
+	z-index: 1000; /* Ensure it overlays other content */
+	display: grid; /* Enable grid layout */
+	grid-template-columns: repeat(3, 1fr); /* Three equal-width columns */
+	gap: 10px; /* Space between items */
+}
+
+.categories-tooltip {
+	left: 60%;
+}
+
+.skills-tooltip {
+	left: 78%;
+}
+
+.dropdown-tooltip label {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 5px;
+	cursor: pointer;
+	font-size: 0.9rem;
+	color: #264653;
+	white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.dropdown-tooltip label:hover {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+}
+
+.dropdown-tooltip input[type="checkbox"] {
+	transform: scale(1.2);
+	margin-right: 5px;
+}
+
+.dropdown:hover .dropdown-tooltip {
+	opacity: 1;
+	visibility: visible;
+}
+
+.dropdown-tooltip::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -8px; /* Position it on the left of the tooltip */
+	transform: translateY(-50%);
+	border-width: 8px;
+	border-style: solid;
+	border-color: transparent #ddd transparent transparent; /* Creates the nook */
+}
+
+.dropdown-tooltip::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -7px; /* Slightly inside to match the background */
+	transform: translateY(-50%);
+	border-width: 7px;
+	border-style: solid;
+	border-color: transparent #ffffff transparent transparent; /* Matches the tooltip's background */
+}
+
+.dropdown-tooltip input[type="checkbox"] {
+	margin-right: 10px;
+	transform: scale(1.2);
+}
+
+.zip-code-filter {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.zip-code-input {
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 1rem;
+	width: 85%;
+}
+
+.zip-code-button {
+	background-color: #2a9d8f;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.zip-code-button:hover {
+	background-color: #264653;
+	transform: translateY(-2px);
+}
+
+.filter-line {
+	border: none;
+	border-top: 1px solid #ddd;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+.zip-code-heading {
+	font-size: 1rem;
+	color: #264653;
+	text-align: center;
+	margin-bottom: 0px;
+}
+
+.zip-code-filter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 11px;
+}
+
+@media (max-width: 768px) {
+	.filters {
+		width: 100%;
+		max-width: 300px;
+		margin: 0 auto;
+	}
+
+	.filters label {
+		font-size: 0.9rem;
+	}
+
+	.opportunity-card {
+		padding: 15px;
+		width: 90%;
+	}
+
+	.opportunity-card h3 {
+		font-size: 1.2rem;
+	}
+
+	.button-group {
+		flex-direction: column;
+		gap: 10px;
+	}
+}

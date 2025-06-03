@@ -1,7 +1,10 @@
+from tarfile import DIRTYPE
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
+
+from sqlalchemy.orm.collections import prepare_instrumentation
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:UmaKiran@localhost:5432/CivicSpark'
@@ -119,6 +122,18 @@ def get_opportunities():
         opportunity = VolunteeringOpportunity.query.get(opportunity_id)
         if not opportunity:
             return jsonify({"error": "Opportunity not found"}), 404
+
+        # Check if user has accepted this opportunity
+        user_id = request.args.get("user_id")
+        is_accepted = False
+        if user_id:
+            is_accepted = (
+                AcceptedEvent.query.filter_by(
+                    user_id=user_id, opp_id=opportunity.opp_id
+                ).first()
+                is not None
+            )
+
         return jsonify(
             {
                 "id": opportunity.opp_id,
@@ -137,6 +152,7 @@ def get_opportunities():
                     "name": opportunity.organization.name,
                     "logo_url": opportunity.organization.logo_url,
                 },
+                "is_accepted": is_accepted,
             }
         )
 
@@ -481,6 +497,28 @@ def get_organization_details(org_id):
             ],
         }
     )
+
+
+# Accept an opportunity for a user
+@app.route("/opportunities/accept", methods=["POST"])
+def accept_opportunity():
+    data = request.json
+    user_id = data.get("user_id")
+    opp_id = data.get("opp_id")
+
+    if not user_id or not opp_id:
+        return jsonify({"error": "Missing user_id or opp_id"}), 400
+
+    # Check if already accepted
+    existing = AcceptedEvent.query.filter_by(user_id=user_id, opp_id=opp_id).first()
+    if existing:
+        return jsonify({"message": "Already accepted"}), 200
+
+    new_accepted = AcceptedEvent(user_id=user_id, opp_id=opp_id)
+    db.session.add(new_accepted)
+    db.session.commit()
+
+    return jsonify({"message": "Opportunity accepted successfully"}), 201
 
 
 ## Check if an organization is favorited
