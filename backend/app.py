@@ -521,6 +521,30 @@ def accept_opportunity():
     return jsonify({"message": "Opportunity accepted successfully"}), 201
 
 
+# Unaccept an opportunity for a user
+@app.route("/opportunities/unaccept", methods=["POST"])
+def unaccept_opportunity():
+    data = request.json
+    user_id = data.get("user_id")
+    opp_id = data.get("opp_id")
+
+    if not user_id or not opp_id:
+        return jsonify({"error": "Missing user_id or opp_id"}), 400
+
+    # Find the accepted event
+    accepted_event = AcceptedEvent.query.filter_by(
+        user_id=user_id, opp_id=opp_id
+    ).first()
+    if not accepted_event:
+        return jsonify({"message": "Opportunity was not accepted"}), 200
+
+    # Remove the accepted event
+    db.session.delete(accepted_event)
+    db.session.commit()
+
+    return jsonify({"message": "Opportunity unaccepted successfully"}), 200
+
+
 ## Check if an organization is favorited
 @app.route("/favorites/check", methods=["GET"])
 def check_favorite():

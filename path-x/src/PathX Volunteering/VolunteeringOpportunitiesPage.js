@@ -145,15 +145,22 @@ const VolunteeringOpportunitiesPage = () => {
 	const handleFavorite = async (orgId) => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/favorites`, {
-				org_id: orgId,
-				user_id: userId,
-			});
-			addNotification(
-				"This organization was successfully favorited.",
-				"success"
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/favorites`,
+				{
+					org_id: orgId,
+					user_id: userId,
+				}
 			);
-			setFavoritedOrgs((prev) => ({ ...prev, [orgId]: true }));
+			if (response.status === 200) {
+				addNotification("This organization is already favorited.", "info");
+			} else if (response.status === 201) {
+				addNotification(
+					"You have successfully favorited this organization!",
+					"success"
+				);
+				setFavoritedOrgs((prev) => ({ ...prev, [orgId]: true }));
+			}
 		} catch (error) {
 			console.error("Error favoriting organization", error);
 			addNotification("Failed to favorite organization. " + error, "error");
@@ -163,15 +170,17 @@ const VolunteeringOpportunitiesPage = () => {
 	const handleUnfavorite = async (orgId) => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/favorites/remove`, {
-				user_id: userId,
-				org_id: orgId,
-			});
-			addNotification(
-				"This organization was successfully unfavorited.",
-				"success"
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/favorites/remove`,
+				{
+					user_id: userId,
+					org_id: orgId,
+				}
 			);
-			setFavoritedOrgs((prev) => ({ ...prev, [orgId]: false }));
+			if (response.status === 200) {
+				addNotification("You have unfavorited this organization.", "info");
+				setFavoritedOrgs((prev) => ({ ...prev, [orgId]: false }));
+			}
 		} catch (error) {
 			console.error("Error unfavoriting organization", error);
 			addNotification("Failed to unfavorite organization. " + error, "error");
@@ -181,12 +190,22 @@ const VolunteeringOpportunitiesPage = () => {
 	const handleSaveOpportunity = async (oppId) => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/saved`, {
-				opp_id: oppId,
-				user_id: userId,
-			});
-			addNotification("This opportunity was successfully saved.", "success");
-			setSavedOpportunities((prev) => ({ ...prev, [oppId]: true }));
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/saved`,
+				{
+					opp_id: oppId,
+					user_id: userId,
+				}
+			);
+			if (response.status === 200) {
+				addNotification("This opportunity is already saved.", "info");
+			} else if (response.status === 201) {
+				addNotification(
+					"You have successfully saved this opportunity!",
+					"success"
+				);
+				setSavedOpportunities((prev) => ({ ...prev, [oppId]: true }));
+			}
 		} catch (error) {
 			console.error("Error saving opportunity.", error);
 			addNotification("Failed to save opportunity. " + error, "error");
@@ -196,12 +215,17 @@ const VolunteeringOpportunitiesPage = () => {
 	const handleUnsaveOpportunity = async (oppId) => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/saved/remove`, {
-				opp_id: oppId,
-				user_id: userId,
-			});
-			addNotification("This opportunity was successfully unsaved.", "success");
-			setSavedOpportunities((prev) => ({ ...prev, [oppId]: false }));
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/saved/remove`,
+				{
+					opp_id: oppId,
+					user_id: userId,
+				}
+			);
+			if (response.status === 200) {
+				addNotification("You have unsaved this opportunity.", "info");
+				setSavedOpportunities((prev) => ({ ...prev, [oppId]: false }));
+			}
 		} catch (error) {
 			console.error("Error unsaving opportunity.", error);
 			addNotification("Failed to unsave opportunity. " + error, "error");
