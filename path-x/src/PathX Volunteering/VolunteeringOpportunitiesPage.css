@@ -1,19 +1,19 @@
-.search-page {
-	padding: 20px;
-	background-color: linear-gradient(180deg, #f9f9f9, #e9ecef);
+.volunteering-opportunities-page {
+	min-height: 100vh;
+	background: linear-gradient(180deg, #f9f9f9, #e9ecef);
 	font-family: "Inter", sans-serif;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 30px;
-	margin-left: 240px;
+	flex-direction: column;
+	position: relative;
 }
 
-.search-page h1 {
+.volunteering-opportunities-page h1 {
 	font-size: 2.5rem;
 	color: #264653;
 	text-align: center;
-	flex: 1 100%; /* Make sure title takes full width */
-	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	margin-left: 240px !important;
 }
 
 .card-link {
@@ -65,10 +65,12 @@
 
 .opportunity-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(310px, 0.5fr));
-	gap: 20px; /* Ensures 20px gap in both x and y directions */
-	flex: 1; /* Allow this to take up remaining space */
-	padding-left: 20px; /* Add some padding on the left for space between the filter */
+	grid-template-columns: repeat(auto-fit, minmax(350px, 0.5fr));
+	gap: 20px;
+	flex: 1;
+	padding-left: 240px !important;
+	width: 100%;
+	margin-bottom: 40px; /* Add some bottom margin to ensure content is scrollable */
 }
 
 .opportunity-card {
@@ -440,5 +442,35 @@
 	.button-group {
 		flex-direction: column;
 		gap: 10px;
+	}
+}
+
+.loading-spinner {
+	text-align: center;
+	padding: 20px;
+	color: #2a9d8f;
+	font-size: 1.2rem;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-left: 240px !important;
+	margin-bottom: 40px; /* Add bottom margin to ensure spinner is visible */
+}
+
+.loading-spinner::after {
+	content: "";
+	width: 24px;
+	height: 24px;
+	border: 3px solid #2a9d8f;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
 	}
 }

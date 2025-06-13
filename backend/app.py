@@ -117,6 +117,10 @@ def get_opportunities():
     skills_filter = request.args.getlist("skills[]")
     zip_code_filter = request.args.get("zip_code")
     opportunity_id = request.args.get("id")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get(
+        "per_page", 12, type=int
+    )  # Show 12 opportunities per page
 
     if opportunity_id:
         opportunity = VolunteeringOpportunity.query.get(opportunity_id)
@@ -156,7 +160,12 @@ def get_opportunities():
             }
         )
 
-    query = VolunteeringOpportunity.query
+    # Start with a base query that includes the organization join
+    query = db.session.query(
+        VolunteeringOpportunity,
+        Organization.name.label("org_name"),
+        Organization.logo_url.label("org_logo"),
+    ).join(Organization, VolunteeringOpportunity.org_id == Organization.org_id)
 
     if category_filter:
         query = query.filter(
@@ -181,30 +190,43 @@ def get_opportunities():
     if zip_code_filter:
         query = query.filter(VolunteeringOpportunity.zip_code == zip_code_filter)
 
+    # Get total count for pagination
+    total = query.count()
+
+    # Apply pagination
+    query = query.order_by(VolunteeringOpportunity.date.desc())
+    query = query.offset((page - 1) * per_page).limit(per_page)
+
     opportunities = query.all()
 
     return jsonify(
-        [
-            {
-                "id": opp.opp_id,
-                "title": opp.title,
-                "description": opp.description,
-                "location": opp.location,
-                "category": opp.category,
-                "date": opp.date,
-                "signup_url": opp.signup_url,
-                "org_id": opp.org_id,
-                "length": opp.length,
-                "image_link": opp.opp_image,
-                "zip_code": opp.zip_code,
-                "skills_required": opp.skills_required,
-                "organization": {
-                    "name": opp.organization.name,
-                    "logo_url": opp.organization.logo_url,
-                },
-            }
-            for opp in opportunities
-        ]
+        {
+            "opportunities": [
+                {
+                    "id": opp.VolunteeringOpportunity.opp_id,
+                    "title": opp.VolunteeringOpportunity.title,
+                    "description": opp.VolunteeringOpportunity.description,
+                    "location": opp.VolunteeringOpportunity.location,
+                    "category": opp.VolunteeringOpportunity.category,
+                    "date": opp.VolunteeringOpportunity.date,
+                    "signup_url": opp.VolunteeringOpportunity.signup_url,
+                    "org_id": opp.VolunteeringOpportunity.org_id,
+                    "length": opp.VolunteeringOpportunity.length,
+                    "image_link": opp.VolunteeringOpportunity.opp_image,
+                    "zip_code": opp.VolunteeringOpportunity.zip_code,
+                    "skills_required": opp.VolunteeringOpportunity.skills_required,
+                    "organization": {
+                        "name": opp.org_name,
+                        "logo_url": opp.org_logo,
+                    },
+                }
+                for opp in opportunities
+            ],
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": (total + per_page - 1) // per_page,
+        }
     )
 
 
@@ -615,6 +637,26 @@ def check_saved_opportunity():
         is not None
     )
     return jsonify({"saved": saved_opportunity}), 200
+
+
+@app.route("/favorites", methods=["GET"])
+def get_favorites():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User ID is required"}), 400
+
+    favorites = Favorite.query.filter_by(user_id=user_id).all()
+    return jsonify([{"org_id": fav.org_id} for fav in favorites])
+
+
+@app.route("/saved", methods=["GET"])
+def get_saved():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User ID is required"}), 400
+
+    saved = SavedOpportunity.query.filter_by(user_id=user_id).all()
+    return jsonify([{"opp_id": saved.opp_id} for saved in saved])
 
 
 # * Main Application Runner
