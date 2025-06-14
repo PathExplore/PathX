@@ -23,6 +23,7 @@ import CompetitionsHomePage from "./PathX Competitions/CompetitionsHomePage";
 import SPNavbar from "./PathX Summer Programs/SPNavbar";
 import VolunteeringErrorPage from "./PathX Volunteering/VolunteeringErrorPage";
 import SPErrorPage from "./PathX Summer Programs/SPErrorPage";
+import SPDashboardPage from "./PathX Summer Programs/SPDashboardPage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -106,6 +107,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 								<SPNavbar />
 								<Routes>
 									<Route path="/" element={<SPHomePage />} />
+									<Route
+										path="/dashboard"
+										element={<ProtectedRoute element={<SPDashboardPage />} />}
+									/>
 									<Route path="*" element={<SPErrorPage />} />
 								</Routes>
 							</>

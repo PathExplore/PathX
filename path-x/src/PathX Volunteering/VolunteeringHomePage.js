@@ -198,7 +198,7 @@ const VolunteeringHomePage = () => {
 				</section>
 
 				<section className="cta-section">
-					<h2>Start Your Journey</h2>
+					<h2>Start Your Volunteering Journey</h2>
 					<p>
 						Ready to make a difference? Join a growing network of engaged
 						individuals and organizations working to improve communities across

@@ -16,7 +16,6 @@ New opportunities from favorited organizations.
 Actions:
 Add a "Sign Up" button for each recommendation.
 
-
 Badges and Achievements
 Purpose: Gamify the experience.
 Display:

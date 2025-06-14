@@ -89,6 +89,45 @@ class AcceptedEvent(db.Model):
     accepted_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class SummerProgram(db.Model):
+    __tablename__ = "summer_programs"
+    pgrm_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text)
+    requirements = db.Column(db.Text)
+    deadline = db.Column(db.String(255))
+    cost = db.Column(db.String(255))
+    location = db.Column(db.String(1000))
+    category = db.Column(db.String(1000))
+
+
+class SavedProgram(db.Model):
+    __tablename__ = "saved_programs"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), primary_key=True)
+    pgrm_id = db.Column(
+        db.Integer, db.ForeignKey("summer_programs.pgrm_id"), primary_key=True
+    )
+    saved_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class PastSummerProgram(db.Model):
+    __tablename__ = "past_summer_programs"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), primary_key=True)
+    pgrm_id = db.Column(
+        db.Integer, db.ForeignKey("summer_programs.pgrm_id"), primary_key=True
+    )
+    completed_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class AcceptedProgram(db.Model):
+    __tablename__ = "accepted_programs"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), primary_key=True)
+    pgrm_id = db.Column(
+        db.Integer, db.ForeignKey("summer_programs.pgrm_id"), primary_key=True
+    )
+    accepted_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 # * API Routes
 
 
@@ -657,6 +696,274 @@ def get_saved():
 
     saved = SavedOpportunity.query.filter_by(user_id=user_id).all()
     return jsonify([{"opp_id": saved.opp_id} for saved in saved])
+
+
+# * Summer Programs API Routes
+
+
+@app.route("/summer-programs", methods=["GET"])
+def get_summer_programs():
+    category_filter = request.args.getlist("category[]")
+    program_id = request.args.get("id")
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 12, type=int)
+
+    if program_id:
+        program = SummerProgram.query.get(program_id)
+        if not program:
+            return jsonify({"error": "Program not found"}), 404
+
+        # Check if user has accepted this program
+        user_id = request.args.get("user_id")
+        is_accepted = False
+        if user_id:
+            is_accepted = (
+                AcceptedProgram.query.filter_by(
+                    user_id=user_id, pgrm_id=program.pgrm_id
+                ).first()
+                is not None
+            )
+
+        return jsonify(
+            {
+                "id": program.pgrm_id,
+                "name": program.name,
+                "description": program.description,
+                "requirements": program.requirements,
+                "deadline": program.deadline,
+                "cost": program.cost,
+                "location": program.location,
+                "category": program.category,
+                "is_accepted": is_accepted,
+            }
+        )
+
+    # Base query
+    query = SummerProgram.query
+
+    if category_filter:
+        query = query.filter(
+            db.or_(
+                *[
+                    SummerProgram.category.ilike(f"%{category}%")
+                    for category in category_filter
+                ]
+            )
+        )
+
+    # Get total count for pagination
+    total = query.count()
+
+    # Apply pagination
+    query = query.order_by(SummerProgram.deadline.asc())
+    query = query.offset((page - 1) * per_page).limit(per_page)
+
+    programs = query.all()
+    return jsonify(
+        {
+            "programs": [
+                {
+                    "id": program.pgrm_id,
+                    "name": program.name,
+                    "description": program.description,
+                    "requirements": program.requirements,
+                    "deadline": program.deadline,
+                    "cost": program.cost,
+                    "location": program.location,
+                    "category": program.category,
+                }
+                for program in programs
+            ],
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": (total + per_page - 1) // per_page,
+        }
+    )
+
+
+@app.route("/summer-programs/save", methods=["POST"])
+def save_program():
+    data = request.json
+    user_id = data.get("user_id")
+    pgrm_id = data.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    # Check if already saved
+    existing = SavedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    if existing:
+        return jsonify({"message": "Program already saved"}), 200
+
+    new_saved = SavedProgram(user_id=user_id, pgrm_id=pgrm_id)
+    db.session.add(new_saved)
+    db.session.commit()
+    return jsonify({"message": "Program saved successfully"}), 201
+
+
+@app.route("/summer-programs/unsave", methods=["POST"])
+def unsave_program():
+    data = request.json
+    user_id = data.get("user_id")
+    pgrm_id = data.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    saved = SavedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    if not saved:
+        return jsonify({"error": "Program not saved"}), 404
+
+    db.session.delete(saved)
+    db.session.commit()
+    return jsonify({"message": "Program unsaved successfully"}), 200
+
+
+@app.route("/summer-programs/accept", methods=["POST"])
+def accept_program():
+    data = request.json
+    user_id = data.get("user_id")
+    pgrm_id = data.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    # Check if already accepted
+    existing = AcceptedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    if existing:
+        return jsonify({"message": "Program already accepted"}), 200
+
+    new_accepted = AcceptedProgram(user_id=user_id, pgrm_id=pgrm_id)
+    db.session.add(new_accepted)
+    db.session.commit()
+    return jsonify({"message": "Program accepted successfully"}), 201
+
+
+@app.route("/summer-programs/unaccept", methods=["POST"])
+def unaccept_program():
+    data = request.json
+    user_id = data.get("user_id")
+    pgrm_id = data.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    accepted = AcceptedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    if not accepted:
+        return jsonify({"error": "Program not accepted"}), 404
+
+    db.session.delete(accepted)
+    db.session.commit()
+    return jsonify({"message": "Program unaccepted successfully"}), 200
+
+
+@app.route("/summer-programs/saved", methods=["GET"])
+def get_saved_programs():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Missing user_id"}), 400
+
+    saved_programs = SavedProgram.query.filter_by(user_id=user_id).all()
+    programs = []
+    for saved in saved_programs:
+        program = SummerProgram.query.get(saved.pgrm_id)
+        if program:
+            programs.append(
+                {
+                    "id": program.pgrm_id,
+                    "name": program.name,
+                    "description": program.description,
+                    "requirements": program.requirements,
+                    "deadline": program.deadline,
+                    "cost": program.cost,
+                    "location": program.location,
+                    "category": program.category,
+                    "saved_at": saved.saved_at,
+                }
+            )
+
+    return jsonify({"programs": programs})
+
+
+@app.route("/summer-programs/accepted", methods=["GET"])
+def get_accepted_programs():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Missing user_id"}), 400
+
+    accepted_programs = AcceptedProgram.query.filter_by(user_id=user_id).all()
+    programs = []
+    for accepted in accepted_programs:
+        program = SummerProgram.query.get(accepted.pgrm_id)
+        if program:
+            programs.append(
+                {
+                    "id": program.pgrm_id,
+                    "name": program.name,
+                    "description": program.description,
+                    "requirements": program.requirements,
+                    "deadline": program.deadline,
+                    "cost": program.cost,
+                    "location": program.location,
+                    "category": program.category,
+                    "accepted_at": accepted.accepted_at,
+                }
+            )
+
+    return jsonify({"programs": programs})
+
+
+@app.route("/summer-programs/past", methods=["GET"])
+def get_past_programs():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Missing user_id"}), 400
+
+    past_programs = PastSummerProgram.query.filter_by(user_id=user_id).all()
+    programs = []
+    for past in past_programs:
+        program = SummerProgram.query.get(past.pgrm_id)
+        if program:
+            programs.append(
+                {
+                    "id": program.pgrm_id,
+                    "name": program.name,
+                    "description": program.description,
+                    "requirements": program.requirements,
+                    "deadline": program.deadline,
+                    "cost": program.cost,
+                    "location": program.location,
+                    "category": program.category,
+                    "completed_at": past.completed_at,
+                }
+            )
+
+    return jsonify({"programs": programs})
+
+
+@app.route("/summer-programs/check-saved", methods=["GET"])
+def check_saved_program():
+    user_id = request.args.get("user_id")
+    pgrm_id = request.args.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    saved = SavedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    return jsonify({"saved": saved is not None})
+
+
+@app.route("/summer-programs/check-accepted", methods=["GET"])
+def check_accepted_program():
+    user_id = request.args.get("user_id")
+    pgrm_id = request.args.get("pgrm_id")
+
+    if not user_id or not pgrm_id:
+        return jsonify({"error": "Missing user_id or pgrm_id"}), 400
+
+    accepted = AcceptedProgram.query.filter_by(user_id=user_id, pgrm_id=pgrm_id).first()
+    return jsonify({"accepted": accepted is not None})
 
 
 # * Main Application Runner
