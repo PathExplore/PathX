@@ -42,10 +42,6 @@ const AboutPage = () => {
 							<p>Full-Stack Development</p>
 						</div>
 						<div className="skill-card">
-							<i className="fa fa-paint-brush"></i>
-							<p>UI/UX Design</p>
-						</div>
-						<div className="skill-card">
 							<i class="fa-solid fa-robot"></i>
 							<p>Artificial Intelligence</p>
 						</div>

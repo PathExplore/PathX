@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	getAuth,
 	signInWithPopup,
 	signOut,
 	GoogleAuthProvider,
 	OAuthProvider,
+	updateProfile,
+	deleteUser,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useNotification } from "./NotificationContext";
 import "./Navbar.css";
 import AuthModal from "./AuthModal";
+import { getUserIdByEmail } from "./apiUtils";
 
 const Navbar = () => {
 	const [user, setUser] = useState(null);
 	const [isModalOpen, setModalOpen] = useState(false);
+	const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+	const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+	const [isDropdownOpen, setDropdownOpen] = useState(false);
+	const [profileData, setProfileData] = useState(null);
 	const auth = getAuth();
 	const { addNotification } = useNotification();
 	const navigate = useNavigate();
+	const dropdownRef = useRef(null);
 
 	const saveUserToDatabase = async (userData) => {
 		try {
@@ -101,13 +109,95 @@ const Navbar = () => {
 		}
 	};
 
+	const handleEditProfile = async (updatedProfile) => {
+		try {
+			const userId = await getUserIdByEmail(user.email);
+
+			const requestData = {
+				user_id: userId,
+				email: user.email,
+				...updatedProfile,
+			};
+
+			await axios.post(
+				`${process.env.REACT_APP_SERVER}/user/update_profile`,
+				requestData
+			);
+			setProfileData({ ...profileData, ...updatedProfile });
+
+			updateProfile(user, {
+				displayName: updatedProfile.name,
+				photoURL: updatedProfile.profile_picture_url,
+			})
+				.then(() => {
+					setProfileModalOpen(false);
+					addNotification("Profile updated successfully.", "success");
+				})
+				.catch((error) => {
+					console.error("Error updating profile", error);
+					addNotification("Failed to update profile. " + error, "error");
+				});
+		} catch (error) {
+			console.error("Error updating profile", error);
+			addNotification("Failed to update profile. " + error, "error");
+		}
+	};
+
+	const handleDeleteAccount = async () => {
+		try {
+			const userId = await getUserIdByEmail(user.email);
+			await axios.delete(
+				`${process.env.REACT_APP_SERVER}/user/delete?user_id=${userId}`
+			);
+
+			await deleteUser(user);
+			setUser(null);
+			setDeleteModalOpen(false);
+			addNotification("Account deleted successfully.", "success");
+			navigate("/");
+		} catch (error) {
+			console.error("Error deleting account:", error);
+			addNotification("Failed to delete account. " + error, "error");
+		}
+	};
+
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((currentUser) => {
 			setUser(currentUser);
+			if (currentUser) {
+				const fetchProfileData = async () => {
+					try {
+						const userId = await getUserIdByEmail(currentUser.email);
+						const response = await axios.get(
+							`${process.env.REACT_APP_SERVER}/user/profile`,
+							{
+								params: { user_id: userId },
+							}
+						);
+						setProfileData(response.data);
+					} catch (error) {
+						console.error("Error fetching profile data:", error);
+					}
+				};
+				fetchProfileData();
+			}
 		});
 
 		return () => unsubscribe();
 	}, [auth]);
+
+	useEffect(() => {
+		const handleOutsideClick = (event) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+				setDropdownOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleOutsideClick);
+		return () => {
+			document.removeEventListener("mousedown", handleOutsideClick);
+		};
+	}, []);
 
 	return (
 		<>
@@ -137,10 +227,52 @@ const Navbar = () => {
 						<a href="/about">About</a>
 					</li>
 					{user ? (
-						<li>
-							<button className="signout-button" onClick={handleSignOut}>
-								Sign Out
+						<li className="profile-dropdown">
+							<button
+								className="profile-picture-button"
+								onClick={() => setDropdownOpen(!isDropdownOpen)}
+							>
+								<img
+									src={
+										profileData?.profile_picture_url ||
+										user.photoURL ||
+										"/images/default-avatar.png"
+									}
+									alt="Profile"
+									className="profile-picture"
+								/>
 							</button>
+							{isDropdownOpen && (
+								<div className="dropdown-menu" ref={dropdownRef}>
+									<button
+										className="dropdown-item"
+										onClick={() => {
+											handleSignOut();
+											setDropdownOpen(false);
+										}}
+									>
+										Sign Out
+									</button>
+									<button
+										className="dropdown-item"
+										onClick={() => {
+											setProfileModalOpen(true);
+											setDropdownOpen(false);
+										}}
+									>
+										Edit Profile
+									</button>
+									<button
+										className="dropdown-item"
+										onClick={() => {
+											setDeleteModalOpen(true);
+											setDropdownOpen(false);
+										}}
+									>
+										Delete Account
+									</button>
+								</div>
+							)}
 						</li>
 					) : (
 						<li>
@@ -161,6 +293,83 @@ const Navbar = () => {
 				onGoogleSignIn={handleGoogleSignIn}
 				onMicrosoftSignIn={handleMicrosoftSignIn}
 			/>
+
+			{isProfileModalOpen && (
+				<div className="modal-backdrop">
+					<div className="modal">
+						<h2>Edit Profile</h2>
+						<form
+							onSubmit={(e) => {
+								e.preventDefault();
+								const formData = new FormData(e.target);
+								handleEditProfile({
+									name: formData.get("name"),
+									profile_picture_url: formData.get("profile_picture_url"),
+								});
+							}}
+						>
+							<div>
+								<label className="modal-label">Name</label>
+								<input
+									type="text"
+									name="name"
+									className="modal-input"
+									defaultValue={profileData?.name}
+									required
+								/>
+							</div>
+							<div>
+								<label className="modal-label">Profile Picture URL</label>
+								<input
+									type="url"
+									name="profile_picture_url"
+									className="modal-input"
+									defaultValue={profileData?.profile_picture_url}
+									required
+								/>
+							</div>
+							<div className="modal-buttons">
+								<button type="submit" className="cta-button primary">
+									Save Changes
+								</button>
+								<button
+									type="button"
+									className="cta-button modal-close-nb"
+									onClick={() => setProfileModalOpen(false)}
+								>
+									Cancel
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			)}
+
+			{isDeleteModalOpen && (
+				<div className="modal-backdrop">
+					<div className="modal">
+						<h2>Delete Account</h2>
+						<p className="delete-warning">
+							Are you sure you want to delete your account? This action cannot
+							be undone.
+						</p>
+						<div className="modal-buttons">
+							<button
+								className="cta-button primary"
+								onClick={handleDeleteAccount}
+							>
+								Yes, Delete Account
+							</button>
+							<button
+								className="cta-button modal-close-nb"
+								onClick={() => setDeleteModalOpen(false)}
+							>
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };

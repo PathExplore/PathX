@@ -1,0 +1,251 @@
+.details-page {
+	font-family: "Inter", sans-serif;
+	background-color: linear-gradient(180deg, #f9f9f9, #e9ecef);
+	padding: 40px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 40px;
+	min-height: 100vh;
+}
+
+.left-panel,
+.right-panel {
+	background: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+.left-panel {
+	flex: 2;
+	max-width: 1000px;
+	text-align: left;
+}
+
+.left-panel h1 {
+	font-size: 2rem;
+	color: #ff6a00;
+	margin-bottom: 10px;
+}
+
+.program-info {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 20px;
+}
+
+.program-category {
+	background-color: #c9ab00;
+	color: white;
+	padding: 5px 15px;
+	border-radius: 20px;
+	font-size: 0.9rem;
+}
+
+.program-description,
+.program-requirements {
+	margin-bottom: 30px;
+}
+
+.program-description h2,
+.program-requirements h2 {
+	font-size: 1.5rem;
+	color: #c9ab00;
+	margin-bottom: 5px;
+}
+
+.left-panel p {
+	font-size: 1rem;
+	color: #555;
+	line-height: 1.6;
+}
+
+.right-panel {
+	flex: 1;
+	max-width: 300px;
+	text-align: left;
+}
+
+.right-panel h2 {
+	font-size: 1.5rem;
+	color: #c9ab00;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.detail-item {
+	font-size: 1rem;
+	color: #555;
+	margin-bottom: 15px;
+	padding: 10px;
+	background-color: #f8f9fa;
+	border-radius: 8px;
+}
+
+.detail-item strong {
+	color: #ff6a00;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.save-button,
+.unsave-button {
+	display: inline-block;
+	width: 100%;
+	text-decoration: none;
+	padding: 12px 20px;
+	border-radius: 25px;
+	font-size: 1rem;
+	text-align: center;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin-top: 20px;
+	cursor: pointer;
+	border: none;
+}
+
+.save-button:hover,
+.unsave-button:hover {
+	transform: translateY(-2px);
+}
+
+.save-button {
+	background-color: #e76f51;
+	color: white;
+}
+
+.save-button:hover {
+	background-color: #d35442;
+}
+
+.unsave-button {
+	background-color: #e83443;
+	color: white;
+	font-weight: bold;
+}
+
+.unsave-button:hover {
+	background-color: #c32d36;
+}
+
+.accept-card-container {
+	margin-top: 20px;
+	width: 100%;
+}
+
+.accept-card-label {
+	position: relative;
+	display: block;
+	cursor: pointer;
+	background-color: #f8f9fa;
+	border: 2px solid #e9ecef;
+	border-radius: 12px;
+	transition: all 0.3s ease;
+	overflow: hidden;
+}
+
+.accept-card-label:hover {
+	background-color: #e9ecef;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(73, 80, 87, 0.1);
+}
+
+.accept-card-input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+.accept-card-content {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 16px 20px;
+	z-index: 1;
+	transition: all 0.3s ease;
+}
+
+.accept-card-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	margin-right: 16px;
+	color: #ff6a00;
+	font-size: 1.5rem;
+	transition: all 0.3s ease;
+}
+
+.accept-card-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.accept-card-title {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #ff6a00;
+	transition: all 0.3s ease;
+}
+
+.accept-card-subtitle {
+	font-size: 0.9rem;
+	color: #6c757d;
+	transition: all 0.3s ease;
+}
+
+.accept-card-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #c9ab00;
+	transform: translateX(-100%);
+	transition: transform 0.3s ease;
+	z-index: 0;
+}
+
+.accept-card-input:checked + .accept-card-content {
+	color: white;
+}
+
+.accept-card-input:checked + .accept-card-content .accept-card-icon {
+	color: white;
+}
+
+.accept-card-input:checked + .accept-card-content .accept-card-title {
+	color: white;
+}
+
+.accept-card-input:checked + .accept-card-content .accept-card-subtitle {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.accept-card-input:checked ~ .accept-card-overlay {
+	transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+	.details-page {
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+	}
+
+	.left-panel,
+	.right-panel {
+		width: 100%;
+		max-width: none;
+	}
+
+	.right-panel {
+		margin-top: 20px;
+	}
+}

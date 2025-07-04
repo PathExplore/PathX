@@ -147,32 +147,31 @@ const VolunteeringHomePage = () => {
 					<h2>Why Choose Us?</h2>
 					<div className="feature-grid">
 						<div className="feature-card">
-							<h3>Volunteer Opportunities</h3>
+							<h3>Make a Difference</h3>
 							<p>
-								Find meaningful ways to give back. From mentoring youth to
-								community cleanups, explore a variety of opportunities.
+								Join our community of volunteers and create positive change in
+								your local area.
 							</p>
 						</div>
 						<div className="feature-card">
-							<h3>Feature Card 2</h3>
+							<h3>Build Connections</h3>
 							<p>
-								Lorem ipsum odor amet, consectetuer adipiscing elit. Nec ligula
-								est eros platea tellus.
+								Connect with like-minded individuals and organizations making an
+								impact.
 							</p>
 						</div>
 						<div className="feature-card">
-							<h3>Feature Card 3</h3>
+							<h3>Track Impact</h3>
 							<p>
-								Non phasellus nascetur litora ut faucibus. Leo penatibus natoque
-								magnis dictum luctus enim diam velit.
+								Record your volunteer hours and track your contributions to the
+								community.
 							</p>
 						</div>
 						<div className="feature-card">
-							<h3>Feature Card 4</h3>
+							<h3>Flexible Hours</h3>
 							<p>
-								Duis nulla scelerisque fringilla condimentum, eget suscipit
-								ridiculus pretium? Donec duis pretium purus consectetur turpis
-								et iaculis fusce.
+								Volunteer on your own time with opportunities that match your
+								schedule and interests.
 							</p>
 						</div>
 					</div>

@@ -157,16 +157,13 @@ def get_opportunities():
     zip_code_filter = request.args.get("zip_code")
     opportunity_id = request.args.get("id")
     page = request.args.get("page", 1, type=int)
-    per_page = request.args.get(
-        "per_page", 12, type=int
-    )  # Show 12 opportunities per page
+    per_page = request.args.get("per_page", 12, type=int)
 
     if opportunity_id:
         opportunity = VolunteeringOpportunity.query.get(opportunity_id)
         if not opportunity:
             return jsonify({"error": "Opportunity not found"}), 404
 
-        # Check if user has accepted this opportunity
         user_id = request.args.get("user_id")
         is_accepted = False
         if user_id:
@@ -199,7 +196,6 @@ def get_opportunities():
             }
         )
 
-    # Start with a base query that includes the organization join
     query = db.session.query(
         VolunteeringOpportunity,
         Organization.name.label("org_name"),
@@ -229,10 +225,8 @@ def get_opportunities():
     if zip_code_filter:
         query = query.filter(VolunteeringOpportunity.zip_code == zip_code_filter)
 
-    # Get total count for pagination
     total = query.count()
 
-    # Apply pagination
     query = query.order_by(VolunteeringOpportunity.date.desc())
     query = query.offset((page - 1) * per_page).limit(per_page)
 
@@ -530,7 +524,6 @@ def get_organization_details(org_id):
     if not organization:
         return jsonify({"error": "Organization not found"}), 404
 
-    # Fetch opportunities, sorted by date (closest first)
     opportunities = (
         VolunteeringOpportunity.query.filter_by(org_id=org_id)
         .order_by(VolunteeringOpportunity.date.asc())

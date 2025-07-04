@@ -2,13 +2,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 20px 30px;
+	padding: 0 30px;
+	height: 80px;
 	background-color: #247070;
 	color: white;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	position: sticky;
 	top: 0;
 	z-index: 1000;
+}
+
+.volunteering-modal-bg {
+	background: linear-gradient(135deg, #264653, #2a9d8f) !important;
 }
 
 .navbar-brand {
@@ -23,17 +28,21 @@
 .navbar-logo {
 	width: 40px;
 	height: 40px;
-	margin-right: 10px;
+	margin-right: 0px;
 }
 
 .navbar-links {
 	list-style: none;
 	display: flex;
 	gap: 20px;
+	align-items: center;
+	height: 100%;
 }
 
 .navbar-links li {
 	font-size: 1rem;
+	display: flex;
+	align-items: center;
 }
 
 .navbar-links a {

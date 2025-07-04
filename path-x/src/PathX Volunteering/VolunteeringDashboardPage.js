@@ -5,15 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import "./VolunteeringDashboardPage.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import {
-	getAuth,
-	updateProfile,
-	// updateEmail,
-	deleteUser,
-	reauthenticateWithPopup,
-	GoogleAuthProvider,
-	OAuthProvider,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserIdByEmail } from "../apiUtils";
 import { Bar, Pie } from "react-chartjs-2";
@@ -47,7 +39,6 @@ const VolunteeringDashboardPage = () => {
 		upcomingEvents: [],
 	});
 	const [profileData, setProfileData] = useState(null);
-	const [isModalOpen, setModalOpen] = useState(false);
 	const { addNotification } = useNotification();
 	const auth = getAuth();
 	const user = auth.currentUser;
@@ -100,107 +91,6 @@ const VolunteeringDashboardPage = () => {
 
 		fetchUserData();
 	}, [categoryRange]);
-
-	const handleEditProfile = async (updatedProfile) => {
-		try {
-			const userId = await getUserIdByEmail(user.email);
-
-			const requestData = {
-				user_id: userId,
-				email: user.email,
-				...updatedProfile,
-			};
-
-			await axios.post(
-				`${process.env.REACT_APP_SERVER}/user/update_profile`,
-				requestData
-			);
-			setProfileData({ ...profileData, ...updatedProfile });
-
-			updateProfile(user, {
-				displayName: updatedProfile.name,
-				photoURL: updatedProfile.profile_picture_url,
-			})
-				.then(() => {
-					// if (updatedProfile.email !== user.email) {
-					// 	const reauthProvider =
-					// 		user.providerData[0].providerId === "google.com"
-					// 			? new GoogleAuthProvider()
-					// 			: new OAuthProvider();
-					// 	alert("Please confirm by signing in with your old email.");
-					// 	reauthenticateWithPopup(user, reauthProvider)
-					// 		.then(() => {
-					// 			updateEmail(user, updatedProfile.email)
-					// 				.then(() => {
-					// 					setModalOpen(false);
-					// 					addNotification("Profile updated successfully.", "success");
-					// 				})
-					// 				.catch((error) => {
-					// 					console.error("Error updating profile", error);
-					// 					addNotification("Failed to update profile. " + error, "error");
-					// 				});
-					// 		})
-					// 		.catch((error) => {
-					// 			console.error("Error updating profile", error);
-					// 			addNotification("Failed to update profile. " + error, "error");
-					// 		});
-					// } else {
-					// 	setModalOpen(false);
-					// 	addNotification("Profile updated successfully.", "success");
-					// }
-					setModalOpen(false);
-					addNotification("Profile updated successfully.", "success");
-				})
-				.catch((error) => {
-					console.error("Error updating profile", error);
-					addNotification("Failed to update profile. " + error, "error");
-				});
-		} catch (error) {
-			console.error("Error updating profile", error);
-			addNotification("Failed to update profile. " + error, "error");
-		}
-	};
-
-	const handleDeleteAccount = async () => {
-		try {
-			const userId = await getUserIdByEmail(user.email);
-
-			if (
-				window.confirm(
-					"Are you sure you want to delete your account? This action cannot be undone."
-				)
-			) {
-				await axios.delete(`${process.env.REACT_APP_SERVER}/user/delete`, {
-					params: { user_id: userId },
-				});
-				const reauthProvider =
-					user.providerData[0].providerId === "google.com"
-						? new GoogleAuthProvider()
-						: new OAuthProvider("microsoft.com");
-				alert("Please confirm by signing in.");
-				reauthenticateWithPopup(user, reauthProvider)
-					.then(() => {
-						deleteUser(user)
-							.then(() => {
-								addNotification("Account deleted successfully.", "success");
-								navigate("/");
-								auth.signOut();
-							})
-							.catch((error) => {
-								console.error("Error deleting account", error);
-								addNotification("Failed to delete account. " + error, "error");
-							});
-					})
-					.catch((error) => {
-						console.error("Error deleting account", error);
-						addNotification("Failed to delete account. " + error, "error");
-					});
-			}
-		} catch (error) {
-			console.error("Error deleting account", error);
-			addNotification("Failed to delete account. " + error, "error");
-		}
-	};
 
 	const processPastEvents = (pastOpportunities) => {
 		const now = new Date();
@@ -340,6 +230,11 @@ const VolunteeringDashboardPage = () => {
 	return (
 		<div className="dashboard-page">
 			<h1>Your Dashboard</h1>
+			{profileData && (
+				<p className="total-hours">
+					Total Volunteering Hours: {profileData.total_hours}
+				</p>
+			)}
 
 			<div className="dashboard-cards">
 				<div className="dashboard-card">
@@ -433,34 +328,6 @@ const VolunteeringDashboardPage = () => {
 			</div>
 
 			<div className="profile-section">
-				{profileData && (
-					<div className="profile-card">
-						<h4>Profile</h4>
-						<img
-							src={profileData.profile_picture_url}
-							alt="Profile"
-							className="profile-picture"
-						/>
-						<h3>{profileData.name}</h3>
-						<p>Email: {profileData.email}</p>
-						<p>Total Volunteering Hours: {profileData.total_hours}</p>
-						<div className="profile-actions">
-							<button
-								className="cta-button primary edit-profile"
-								onClick={() => setModalOpen(true)}
-							>
-								Edit Profile
-							</button>
-							<button
-								className="cta-button danger del-profile"
-								onClick={handleDeleteAccount}
-							>
-								Delete Account
-							</button>
-						</div>
-					</div>
-				)}
-
 				{/* Volunteer Hours Graph */}
 				<div className="profile-card graph-card">
 					<h4>Volunteer Hours</h4>
@@ -523,65 +390,6 @@ const VolunteeringDashboardPage = () => {
 					/>
 				</div>
 			</div>
-
-			{isModalOpen && (
-				<div className="modal-backdrop">
-					<div className="modal">
-						<h2>Edit Profile</h2>
-						<form
-							onSubmit={(e) => {
-								e.preventDefault();
-								const updatedProfile = {
-									name: e.target.name.value,
-									// email: e.target.email.value,
-									profile_picture_url: e.target.profile_picture_url.value,
-								};
-								handleEditProfile(updatedProfile);
-							}}
-						>
-							<div>
-								<label className="modal-label">Name:</label>
-								<input
-									type="text"
-									name="name"
-									defaultValue={profileData.name}
-									required
-									className="modal-input"
-								/>
-							</div>
-							{/* <div>
-								<label className="modal-label">Email:</label>
-								<input
-									type="email"
-									name="email"
-									defaultValue={profileData.email}
-									required
-									className="modal-input"
-								/>
-							</div> */}
-							<div>
-								<label className="modal-label">Profile Picture URL:</label>
-								<input
-									type="text"
-									name="profile_picture_url"
-									defaultValue={profileData.profile_picture_url}
-									className="modal-input"
-								/>
-							</div>
-							<button type="submit" className="cta-button primary">
-								Save
-							</button>
-							<button
-								type="button"
-								className="modal-close"
-								onClick={() => setModalOpen(false)}
-							>
-								Cancel
-							</button>
-						</form>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };
