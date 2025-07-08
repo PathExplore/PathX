@@ -178,14 +178,14 @@ const SPHomePage = () => {
 
 				<section className="sp-testimonials">
 					<h2>What Our Users Say</h2>
-					<div className="sp-testimonial">
+					<div className="sp-testimonial testimonial">
 						<blockquote>
 							"PathX Summer Programs helped me find an incredible STEM program
 							that changed my career trajectory!"
 						</blockquote>
 						<p>- Sarah M., Student</p>
 					</div>
-					<div className="sp-testimonial">
+					<div className="sp-testimonial testimonial">
 						<blockquote>
 							"I discovered so many unique summer opportunities that I never
 							knew existed."
