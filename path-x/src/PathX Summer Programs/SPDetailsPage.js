@@ -211,6 +211,14 @@ const SPDetailsPage = () => {
 						Save for Later
 					</button>
 				)}
+				<a
+					href={program.signup_url}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="signup-button"
+				>
+					Sign Up
+				</a>
 
 				<div className="accept-card-container">
 					<label className="accept-card-label">

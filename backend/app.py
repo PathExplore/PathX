@@ -99,6 +99,7 @@ class SummerProgram(db.Model):
     cost = db.Column(db.String(255))
     location = db.Column(db.String(1000))
     category = db.Column(db.String(1000))
+    signup_url = db.Column(db.String(1000))
 
 
 class SavedProgram(db.Model):
@@ -727,6 +728,7 @@ def get_summer_programs():
                 "cost": program.cost,
                 "location": program.location,
                 "category": program.category,
+                "signup_url": program.signup_url,
                 "is_accepted": is_accepted,
             }
         )
