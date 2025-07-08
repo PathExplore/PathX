@@ -296,7 +296,7 @@ const VolunteeringDetailsPage = () => {
 					</p>
 				)}
 				{opportunity.location && (
-					<p className="detail-item">
+					<p className="detail-item last-detail-item">
 						<strong>Location:</strong> {opportunity.location}
 					</p>
 				)}

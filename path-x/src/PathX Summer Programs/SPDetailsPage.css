@@ -23,7 +23,7 @@
 	text-align: left;
 }
 
-.left-panel h1 {
+.sp-left-panel h1 {
 	font-size: 2rem;
 	color: #ff6a00;
 	margin-bottom: 10px;
@@ -36,7 +36,7 @@
 	margin-bottom: 20px;
 }
 
-.program-category {
+.sp-program-category {
 	background-color: #c9ab00;
 	color: white;
 	padding: 5px 15px;
@@ -68,10 +68,9 @@
 	text-align: left;
 }
 
-.right-panel h2 {
+.sp-right-panel h2 {
 	font-size: 1.5rem;
 	color: #c9ab00;
-	margin-bottom: 20px;
 	text-align: center;
 }
 
@@ -84,10 +83,9 @@
 	border-radius: 8px;
 }
 
-.detail-item strong {
+.sp-detail-item strong {
 	color: #ff6a00;
 	font-weight: bold;
-	margin-right: 5px;
 }
 
 .save-button,
@@ -109,25 +107,6 @@
 .save-button:hover,
 .unsave-button:hover {
 	transform: translateY(-2px);
-}
-
-.save-button {
-	background-color: #e76f51;
-	color: white;
-}
-
-.save-button:hover {
-	background-color: #d35442;
-}
-
-.unsave-button {
-	background-color: #e83443;
-	color: white;
-	font-weight: bold;
-}
-
-.unsave-button:hover {
-	background-color: #c32d36;
 }
 
 .accept-card-container {
@@ -169,7 +148,7 @@
 	transition: all 0.3s ease;
 }
 
-.accept-card-icon {
+.sp-accept-card-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -187,7 +166,7 @@
 	gap: 4px;
 }
 
-.accept-card-title {
+.sp-accept-card-title {
 	font-size: 1.1rem;
 	font-weight: 600;
 	color: #ff6a00;
@@ -200,7 +179,7 @@
 	transition: all 0.3s ease;
 }
 
-.accept-card-overlay {
+.sp-accept-card-overlay {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -212,20 +191,24 @@
 	z-index: 0;
 }
 
+.last-detail-item {
+	margin-bottom: 0 !important;
+}
+
 .accept-card-input:checked + .accept-card-content {
-	color: white;
+	color: white !important;
 }
 
-.accept-card-input:checked + .accept-card-content .accept-card-icon {
-	color: white;
+.accept-card-input:checked + .accept-card-content .sp-accept-card-icon {
+	color: white !important;
 }
 
-.accept-card-input:checked + .accept-card-content .accept-card-title {
-	color: white;
+.accept-card-input:checked + .accept-card-content .sp-accept-card-title {
+	color: white !important;
 }
 
 .accept-card-input:checked + .accept-card-content .accept-card-subtitle {
-	color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .accept-card-input:checked ~ .accept-card-overlay {

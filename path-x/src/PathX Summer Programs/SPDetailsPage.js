@@ -46,9 +46,9 @@ const SPDetailsPage = () => {
 
 				try {
 					const saveResponse = await axios.get(
-						`${process.env.REACT_APP_SERVER}/summer-programs/saved/check`,
+						`${process.env.REACT_APP_SERVER}/summer-programs/check-saved`,
 						{
-							params: { user_id: userId, program_id: program.id },
+							params: { user_id: userId, pgrm_id: program.id },
 						}
 					);
 					updatedSaves[program.id] = saveResponse.data.saved;
@@ -67,9 +67,9 @@ const SPDetailsPage = () => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
 			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER}/summer-programs/saved`,
+				`${process.env.REACT_APP_SERVER}/summer-programs/save`,
 				{
-					program_id: programId,
+					pgrm_id: programId,
 					user_id: userId,
 				}
 			);
@@ -89,9 +89,9 @@ const SPDetailsPage = () => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
 			const response = await axios.post(
-				`${process.env.REACT_APP_SERVER}/summer-programs/saved/remove`,
+				`${process.env.REACT_APP_SERVER}/summer-programs/unsave`,
 				{
-					program_id: programId,
+					pgrm_id: programId,
 					user_id: userId,
 				}
 			);
@@ -112,7 +112,7 @@ const SPDetailsPage = () => {
 				`${process.env.REACT_APP_SERVER}/summer-programs/accept`,
 				{
 					user_id: userId,
-					program_id: program.id,
+					pgrm_id: program.id,
 				}
 			);
 			if (response.status === 200) {
@@ -137,7 +137,7 @@ const SPDetailsPage = () => {
 				`${process.env.REACT_APP_SERVER}/summer-programs/unaccept`,
 				{
 					user_id: userId,
-					program_id: program.id,
+					pgrm_id: program.id,
 				}
 			);
 			if (response.status === 200) {
@@ -165,10 +165,10 @@ const SPDetailsPage = () => {
 	return (
 		<div className="details-page">
 			{/* Left Panel */}
-			<div className="left-panel">
+			<div className="left-panel sp-left-panel">
 				<h1>{program.name}</h1>
 				<div className="program-info">
-					<div className="program-category">
+					<div className="sp-program-category">
 						<span>{program.category}</span>
 					</div>
 				</div>
@@ -183,18 +183,34 @@ const SPDetailsPage = () => {
 			</div>
 
 			{/* Right Panel */}
-			<div className="right-panel">
-				<h2>Program Details</h2>
-				<div className="detail-item">
+			<div className="right-panel sp-right-panel">
+				<h2>Details</h2>
+				<div className="detail-item sp-detail-item">
 					<strong>Deadline:</strong>{" "}
 					{new Date(program.deadline).toLocaleDateString()}
 				</div>
-				<div className="detail-item">
+				<div className="detail-item sp-detail-item">
 					<strong>Location:</strong> {program.location}
 				</div>
-				<div className="detail-item">
+				<div className="detail-item sp-detail-item last-detail-item">
 					<strong>Cost:</strong> ${program.cost}
 				</div>
+
+				{savedPrograms[program.id] ? (
+					<button
+						onClick={() => handleUnsaveProgram(program.id)}
+						className="unsave-button"
+					>
+						Unsave
+					</button>
+				) : (
+					<button
+						onClick={() => handleSaveProgram(program.id)}
+						className="save-button"
+					>
+						Save for Later
+					</button>
+				)}
 
 				<div className="accept-card-container">
 					<label className="accept-card-label">
@@ -205,39 +221,27 @@ const SPDetailsPage = () => {
 							onChange={handleToggleAccept}
 						/>
 						<div className="accept-card-content">
-							<div className="accept-card-icon">
-								<i className="fa-solid fa-check"></i>
+							<div className="sp-accept-card-icon">
+								{isAccepted ? (
+									<i className="fa-solid fa-check-circle"></i>
+								) : (
+									<i className="fa-regular fa-calendar-plus"></i>
+								)}
 							</div>
 							<div className="accept-card-text">
-								<span className="accept-card-title">
+								<span className="sp-accept-card-title">
 									{isAccepted ? "Accepted" : "Accept Program"}
 								</span>
 								<span className="accept-card-subtitle">
 									{isAccepted
-										? "You have accepted this program"
-										: "Click to accept this program"}
+										? "You're all set! Don't forget to sign up above."
+										: "For our records only. You still need to sign up above!"}
 								</span>
 							</div>
 						</div>
-						<div className="accept-card-overlay"></div>
+						<div className="sp-accept-card-overlay accept-card-overlay"></div>
 					</label>
 				</div>
-
-				{savedPrograms[program.id] ? (
-					<button
-						onClick={() => handleUnsaveProgram(program.id)}
-						className="unsave-button"
-					>
-						Unsave Program
-					</button>
-				) : (
-					<button
-						onClick={() => handleSaveProgram(program.id)}
-						className="save-button"
-					>
-						Save Program
-					</button>
-				)}
 			</div>
 		</div>
 	);
