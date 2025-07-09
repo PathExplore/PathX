@@ -766,6 +766,7 @@ def get_summer_programs():
                     "cost": program.cost,
                     "location": program.location,
                     "category": program.category,
+                    "signup_url": program.signup_url,
                 }
                 for program in programs
             ],

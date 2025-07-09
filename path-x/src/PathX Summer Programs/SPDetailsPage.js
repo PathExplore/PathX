@@ -186,14 +186,13 @@ const SPDetailsPage = () => {
 			<div className="right-panel sp-right-panel">
 				<h2>Details</h2>
 				<div className="detail-item sp-detail-item">
-					<strong>Deadline:</strong>{" "}
-					{new Date(program.deadline).toLocaleDateString()}
+					<strong>Deadline:</strong> {program.deadline}
 				</div>
 				<div className="detail-item sp-detail-item">
 					<strong>Location:</strong> {program.location}
 				</div>
 				<div className="detail-item sp-detail-item last-detail-item">
-					<strong>Cost:</strong> ${program.cost}
+					<strong>Cost:</strong> {program.cost}
 				</div>
 
 				{savedPrograms[program.id] ? (

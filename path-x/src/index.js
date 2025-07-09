@@ -25,6 +25,7 @@ import VolunteeringErrorPage from "./PathX Volunteering/VolunteeringErrorPage";
 import SPErrorPage from "./PathX Summer Programs/SPErrorPage";
 import SPDashboardPage from "./PathX Summer Programs/SPDashboardPage";
 import SPDetailsPage from "./PathX Summer Programs/SPDetailsPage";
+import SPProgramsPage from "./PathX Summer Programs/SPProgramsPage";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -115,6 +116,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 									<Route
 										path="/program/:id"
 										element={<ProtectedRoute element={<SPDetailsPage />} />}
+									/>
+									<Route
+										path="/programs"
+										element={<ProtectedRoute element={<SPProgramsPage />} />}
 									/>
 									<Route path="*" element={<SPErrorPage />} />
 								</Routes>

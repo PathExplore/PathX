@@ -1,349 +1,210 @@
 import React, { useState, useEffect } from "react";
 import { useNotification } from "../NotificationContext";
 import axios from "axios";
-import "./VolunteeringOpportunitiesPage.css";
+import "./SPProgramsPage.css";
 import { getUserIdByEmail } from "../apiUtils";
 import { getAuth } from "firebase/auth";
 import { Link } from "react-router-dom";
 
-const VolunteeringOpportunitiesPage = () => {
-	const [opportunities, setOpportunities] = useState([]);
-	const [filters, setFilters] = useState({ categories: {}, skills: {} });
-	const [zipCode, setZipCode] = useState(""); // ZIP Code filter state
-	const [favoritedOrgs, setFavoritedOrgs] = useState({});
-	const [savedOpportunities, setSavedOpportunities] = useState({});
+const SPProgramsPage = () => {
+	const [programs, setPrograms] = useState([]);
+	const [filters, setFilters] = useState({ categories: {} });
+	const [savedPrograms, setSavedPrograms] = useState({});
+	const [page, setPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const { addNotification } = useNotification();
 	const auth = getAuth();
 	const user = auth.currentUser;
 	const categories = [
-		"Advocacy & Human Rights",
-		"Animals",
-		"Arts & Culture",
-		"Board Development",
-		"Children & Youth",
-		"Community",
-		"Computers & Technology",
-		"Crisis Support",
-		"Disaster Relief",
-		"Education & Literacy",
-		"Emergency & Safety",
-		"Employment",
-		"Environment",
-		"Faith-Based",
-		"Health & Medicine",
-		"Homeless & Housing",
-		"Hunger",
-		"Immigrants & Refugees",
-		"International",
-		"Justice & Legal",
-		"LGBTQ+",
-		"Media & Broadcasting",
-		"People with Disabilities",
-		"Politics",
-		"Race & Ethnicity",
-		"Seniors",
-		"Sports & Recreation",
-		"Veterans & Military Families",
-		"Women",
-	];
-	const skills = [
-		"Academics",
-		"Administrative & Clerical",
-		"Animals & Environment",
+		"STEM",
 		"Arts",
-		"Business & Management",
-		"Children & Family",
-		"Computers & IT",
-		"Disaster Relief",
-		"Education & Literacy",
-		"Engineering",
-		"Finance",
-		"Food Service & Events",
-		"For Profit & Nonprofit Development",
-		"HR",
-		"Healthcare & Social Services",
-		"Hobbies & Crafts",
-		"Housing & Facilities",
-		"IT Infrastructure & Software",
-		"Interactive & Web Development",
-		"Interpersonal",
-		"Language & Culture",
-		"Legal & Advocacy",
-		"Logistics, Supply Chain & Transportation",
-		"Marketing & Communications",
-		"Music",
-		"Performing Arts",
-		"Sports & Recreation",
-		"Strategy Development & Business Planning",
-		"Trades & Maintenance",
+		"Leadership",
+		"Community Service",
+		"Sports",
+		"Other",
 	];
 
 	useEffect(() => {
-		const fetchOpportunities = async () => {
+		const fetchPrograms = async () => {
 			try {
+				setLoading(true);
 				const response = await axios.get(
-					`${process.env.REACT_APP_SERVER}/opportunities`,
+					`${process.env.REACT_APP_SERVER}/summer-programs`,
 					{
 						params: {
 							category: Object.keys(filters.categories),
-							skills: Object.keys(filters.skills),
-							zip_code: zipCode || undefined,
+							page,
+							per_page: 12,
 						},
 					}
 				);
-				setOpportunities(response.data);
+
+				if (page === 1) {
+					setPrograms(response.data.programs);
+				} else {
+					setPrograms((prev) => [...prev, ...response.data.programs]);
+				}
+
+				setHasMore(page < response.data.total_pages);
 			} catch (error) {
-				console.error("Error fetching opportunities.", error);
-				addNotification("Failed to load opportunities. " + error, "error");
+				console.error("Error fetching programs.", error);
+				addNotification("Failed to load programs. " + error, "error");
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		fetchOpportunities();
-	}, [filters, zipCode]);
+		fetchPrograms();
+	}, [filters, page]);
+
+	useEffect(() => {
+		setPage(1);
+		setHasMore(true);
+	}, [filters]);
 
 	useEffect(() => {
 		if (user?.email) {
-			const fetchFavoritesAndSaves = async () => {
-				const userId = await getUserIdByEmail(user.email);
-				const updatedFavorites = {};
-				const updatedSaves = {};
-
-				for (const opp of opportunities) {
-					try {
-						// Check if the organization is favorited
-						const favoriteResponse = await axios.get(
-							`${process.env.REACT_APP_SERVER}/favorites/check`,
-							{
-								params: { user_id: userId, org_id: opp.org_id },
-							}
-						);
-						updatedFavorites[opp.org_id] = favoriteResponse.data.favorited;
-
-						// Check if the opportunity is saved
-						const saveResponse = await axios.get(
-							`${process.env.REACT_APP_SERVER}/saved/check`,
-							{
-								params: { user_id: userId, opp_id: opp.id },
-							}
-						);
-						updatedSaves[opp.id] = saveResponse.data.saved;
-					} catch (error) {
-						console.error("Error checking status:", error);
-					}
+			const fetchSaves = async () => {
+				try {
+					const userId = await getUserIdByEmail(user.email);
+					const savedResponse = await axios.get(
+						`${process.env.REACT_APP_SERVER}/summer-programs/saved`,
+						{
+							params: { user_id: userId },
+						}
+					);
+					const savedMap = {};
+					(savedResponse.data.programs || []).forEach((saved) => {
+						savedMap[saved.id] = true;
+					});
+					setSavedPrograms(savedMap);
+				} catch (error) {
+					console.error("Error fetching saved programs:", error);
 				}
-
-				setFavoritedOrgs(updatedFavorites);
-				setSavedOpportunities(updatedSaves);
 			};
+			fetchSaves();
+		}
+	}, [user]);
 
-			if (opportunities.length > 0) {
-				fetchFavoritesAndSaves();
+	const handleSaveProgram = async (pgrmId) => {
+		try {
+			const userId = await getUserIdByEmail(user.email);
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/summer-programs/save`,
+				{
+					pgrm_id: pgrmId,
+					user_id: userId,
+				}
+			);
+			if (response.status === 200) {
+				addNotification("This program is already saved.", "info");
+			} else if (response.status === 201) {
+				addNotification("You have successfully saved this program!", "success");
+				setSavedPrograms((prev) => ({ ...prev, [pgrmId]: true }));
 			}
+		} catch (error) {
+			console.error("Error saving program.", error);
+			addNotification("Failed to save program. " + error, "error");
 		}
-	}, [opportunities]);
+	};
 
-	const handleFavorite = async (orgId) => {
+	const handleUnsaveProgram = async (pgrmId) => {
 		try {
 			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/favorites`, {
-				org_id: orgId,
-				user_id: userId,
-			});
-			addNotification(
-				"This organization was successfully favorited.",
-				"success"
+			const response = await axios.post(
+				`${process.env.REACT_APP_SERVER}/summer-programs/unsave`,
+				{
+					pgrm_id: pgrmId,
+					user_id: userId,
+				}
 			);
-			setFavoritedOrgs((prev) => ({ ...prev, [orgId]: true }));
+			if (response.status === 200) {
+				addNotification("You have unsaved this program.", "info");
+				setSavedPrograms((prev) => ({ ...prev, [pgrmId]: false }));
+			}
 		} catch (error) {
-			console.error("Error favoriting organization", error);
-			addNotification("Failed to favorite organization. " + error, "error");
+			console.error("Error unsaving program.", error);
+			addNotification("Failed to unsave program. " + error, "error");
 		}
 	};
 
-	const handleUnfavorite = async (orgId) => {
-		try {
-			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/favorites/remove`, {
-				user_id: userId,
-				org_id: orgId,
-			});
-			addNotification(
-				"This organization was successfully unfavorited.",
-				"success"
-			);
-			setFavoritedOrgs((prev) => ({ ...prev, [orgId]: false }));
-		} catch (error) {
-			console.error("Error unfavoriting organization", error);
-			addNotification("Failed to unfavorite organization. " + error, "error");
-		}
-	};
-
-	const handleSaveOpportunity = async (oppId) => {
-		try {
-			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/saved`, {
-				opp_id: oppId,
-				user_id: userId,
-			});
-			addNotification("This opportunity was successfully saved.", "success");
-			setSavedOpportunities((prev) => ({ ...prev, [oppId]: true }));
-		} catch (error) {
-			console.error("Error saving opportunity.", error);
-			addNotification("Failed to save opportunity. " + error, "error");
-		}
-	};
-
-	const handleUnsaveOpportunity = async (oppId) => {
-		try {
-			const userId = await getUserIdByEmail(user.email);
-			await axios.post(`${process.env.REACT_APP_SERVER}/saved/remove`, {
-				opp_id: oppId,
-				user_id: userId,
-			});
-			addNotification("This opportunity was successfully unsaved.", "success");
-			setSavedOpportunities((prev) => ({ ...prev, [oppId]: false }));
-		} catch (error) {
-			console.error("Error unsaving opportunity.", error);
-			addNotification("Failed to unsave opportunity. " + error, "error");
-		}
-	};
-
-	const handleFilterChange = (e, type) => {
+	const handleFilterChange = (e) => {
 		const { name, checked } = e.target;
-
 		setFilters((prevFilters) => {
 			const updatedFilters = { ...prevFilters };
-			updatedFilters[type] = { ...prevFilters[type] };
-
+			updatedFilters.categories = { ...prevFilters.categories };
 			if (checked) {
-				updatedFilters[type][name] = name;
+				updatedFilters.categories[name] = name;
 			} else {
-				delete updatedFilters[type][name];
+				delete updatedFilters.categories[name];
 			}
-
 			return updatedFilters;
 		});
 	};
 
-	const handleZipCodeFilter = () => {
-		setZipCode(document.getElementById("zip-code-input").value);
-	};
+	// Infinite scroll
+	useEffect(() => {
+		const handleScroll = () => {
+			if (
+				window.innerHeight + document.documentElement.scrollTop >=
+				document.documentElement.offsetHeight - 100
+			) {
+				if (!loading && hasMore) {
+					setPage((prev) => prev + 1);
+				}
+			}
+		};
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [loading, hasMore]);
 
 	return (
-		<>
-			<div className="search-page">
-				<h1>Volunteering Opportunities</h1>
-
-				<div className="filters">
-					<h2>Filters</h2>
-
-					{/* Categories Filter */}
-					<div className="dropdown">
-						<button className="dropdown-toggle">
-							Categories <i className="fa-solid fa-angle-right"></i>
-						</button>
-						<div className="dropdown-tooltip categories-tooltip">
-							{categories.map((category) => (
-								<label key={category}>
-									<input
-										type="checkbox"
-										name={category}
-										onChange={(e) => handleFilterChange(e, "categories")}
-									/>
-									{category}
-								</label>
-							))}
-						</div>
-					</div>
-
-					{/* Skills Filter */}
-					<div className="dropdown">
-						<button className="dropdown-toggle">
-							Skills Required <i className="fa-solid fa-angle-right"></i>
-						</button>
-						<div className="dropdown-tooltip skills-tooltip">
-							{skills.map((skill) => (
-								<label key={skill}>
-									<input
-										type="checkbox"
-										name={skill}
-										onChange={(e) => handleFilterChange(e, "skills")}
-									/>
-									{skill}
-								</label>
-							))}
-						</div>
-					</div>
-
-					{/* Line Break */}
-					<hr className="filter-line" />
-					<h3 className="zip-code-heading">Filter by Zip Code</h3>
-
-					{/* ZIP Code Filter */}
-					<div className="zip-code-filter">
-						<input
-							type="text"
-							placeholder="Enter ZIP Code"
-							className="zip-code-input"
-							id="zip-code-input"
-						/>
-						<button onClick={handleZipCodeFilter} className="zip-code-button">
-							Filter
-						</button>
+		<div className="volunteering-opportunities-page">
+			<h1 className="sp-main-title">Summer Programs</h1>
+			<div className="filters">
+				<h2 className="sp-filters-title">Filters</h2>
+				{/* Category Filter */}
+				<div className="dropdown">
+					<button className="dropdown-toggle">
+						Categories <i className="fa-solid fa-angle-right"></i>
+					</button>
+					<div className="dropdown-tooltip categories-tooltip">
+						{categories.map((category) => (
+							<label key={category} className="">
+								<input
+									type="checkbox"
+									name={category}
+									onChange={handleFilterChange}
+								/>
+								{category}
+							</label>
+						))}
 					</div>
 				</div>
-
-				<div className="opportunity-grid" key={JSON.stringify(filters)}>
-					{opportunities.map((opp) => (
-						<Link
-							to={`/volunteering/opportunity/${opp.id}`}
-							key={opp.id}
-							className="card-link"
-						>
-							<div key={opp.id} className="opportunity-card">
-								<div className="opp-organization-info">
-									<Link
-										to={`/volunteering/organization/${opp.org_id}`}
-										className="org-link"
-										rel="noopener noreferrer"
-									>
-										<div className="org-name-favorite">
-											<img
-												src={opp.organization.logo_url}
-												alt="Organization"
-												className="organization-logo"
-											/>
-											<span>{opp.organization.name}</span>
-											{favoritedOrgs[opp.org_id] ? (
-												<button
-													onClick={(event) => {
-														event.preventDefault();
-														handleUnfavorite(opp.org_id);
-													}}
-													className="unfavorite-button"
-												>
-													<i className="fa-solid fa-heart"></i>
-												</button>
-											) : (
-												<button
-													onClick={(event) => {
-														event.preventDefault();
-														handleFavorite(opp.org_id);
-													}}
-													className="favorite-button"
-												>
-													<i className="fa-regular fa-heart"></i>
-												</button>
-											)}
-										</div>
-									</Link>
-								</div>
-								<h3>{opp.title}</h3>
-								<p className="opportunity-description">{opp.description}</p>
-								<p className="opportunity-category">{opp.category}</p>
-								<div className="button-group">
+			</div>
+			<div className="opportunity-grid">
+				{programs.map((program) => (
+					<Link
+						to={`/summer-programs/program/${program.id}`}
+						key={program.id}
+						className="card-link"
+					>
+						<div key={program.id} className="opportunity-card">
+							<h3 className="sp-card-title">{program.name}</h3>
+							<p className="opportunity-description sp-description">
+								{program.description}
+							</p>
+							<p className="opportunity-category sp-category">
+								{program.category}
+							</p>
+							<p className="program-deadline">
+								<strong>Deadline:</strong> {program.deadline}
+							</p>
+							<div className="button-group sp-button-group">
+								{program.signup_url && (
 									<a
-										href={opp.signup_url}
+										href={program.signup_url}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="opp-sign-up-button"
@@ -351,35 +212,40 @@ const VolunteeringOpportunitiesPage = () => {
 									>
 										Sign Up
 									</a>
-									{savedOpportunities[opp.id] ? (
-										<button
-											onClick={(event) => {
-												event.preventDefault();
-												handleUnsaveOpportunity(opp.id);
-											}}
-											className="opp-unsave-button"
-										>
-											Unsave
-										</button>
-									) : (
-										<button
-											onClick={(event) => {
-												event.preventDefault();
-												handleSaveOpportunity(opp.id);
-											}}
-											className="opp-save-button"
-										>
-											Save for Later
-										</button>
-									)}
-								</div>
+								)}
+								{savedPrograms[program.id] ? (
+									<button
+										onClick={(event) => {
+											event.preventDefault();
+											handleUnsaveProgram(program.id);
+										}}
+										className="opp-unsave-button"
+									>
+										Unsave
+									</button>
+								) : (
+									<button
+										onClick={(event) => {
+											event.preventDefault();
+											handleSaveProgram(program.id);
+										}}
+										className="opp-save-button"
+									>
+										Save for Later
+									</button>
+								)}
 							</div>
-						</Link>
-					))}
-				</div>
+						</div>
+					</Link>
+				))}
 			</div>
-		</>
+			{loading && (
+				<div className="loading-spinner sp-loading-spinner">
+					Loading more programs...
+				</div>
+			)}
+		</div>
 	);
 };
 
-export default VolunteeringOpportunitiesPage;
+export default SPProgramsPage;
